@@ -22,7 +22,7 @@ function getZodiacSign(dateStr) {
   return 'pisces';
 }
 
-async function generateDailyJournal(userId) {
+async function generateDailyJournal(userId, { welcome = false } = {}) {
   const today = new Date().toISOString().slice(0, 10);
   const { data: existing } = await supabase
     .from('daily_journal')
@@ -39,7 +39,7 @@ async function generateDailyJournal(userId) {
   const numerology = await getNumerologyInfo(birthDate);
   const zodiac = getZodiacSign(birthDate);
   const horoscope = await getDailyHoroscope(zodiac, birthDate);
-  const energy = await generatePersonalEnergyMessage(firstName, birthDate);
+  const energy = await generatePersonalEnergyMessage(firstName, birthDate, welcome);
 
   const { data, error } = await supabase
     .from('daily_journal')
