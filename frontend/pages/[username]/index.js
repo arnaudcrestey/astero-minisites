@@ -17,7 +17,10 @@ export default function UserSite() {
   return (
     <div>
       <h1>Mini-site de {query.username}</h1>
-      <pre>{JSON.stringify(profile, null, 2)}</pre>
+      <p>Thème astro : {profile.zodiac_sign || 'N/A'}</p>
+      <p>Chemin de vie : {profile.lifePath || 'Calcul en cours'}</p>
+      <p>Message énergétique :</p>
+      <blockquote>{profile.energyMessage || 'En attente...'}</blockquote>
     </div>
   );
 }

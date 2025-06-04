@@ -11,7 +11,9 @@ app.get('/', (req, res) => {
 });
 
 // Example protected route using Supabase Auth
-app.get('/profile', async (req, res) => {
+const authMiddleware = require('./utils/auth');
+
+app.get('/profile', authMiddleware, async (req, res) => {
   const { data, error } = await supabase.from('profiles').select('*');
   if (error) return res.status(500).json({ error });
   res.json(data);
