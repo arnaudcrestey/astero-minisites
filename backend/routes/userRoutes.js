@@ -5,9 +5,13 @@ const { getNumerologyInfo } = require('../services/numerologyService');
 const { getDailyHoroscope } = require('../services/horoscopeService');
 const { getClientSiteData } = require('../services/clientSiteService');
 const { getUserById } = require('../services/userService');
-const { generateDailyJournal, getJournalEntriesByUsername } = require('../services/journalService');
+const {
+  generateDailyJournal,
+  getJournalEntriesByUsername,
+} = require('../services/journalService');
 const { supabase } = require('../config/supabase');
 const authMiddleware = require('../utils/auth');
+const subscriptionMiddleware = require('../utils/subscriptionAuth');
 
 // Endpoint to generate personalized energy message
 router.get('/energy-message/:firstName/:dob', authMiddleware, async (req, res) => {
@@ -77,7 +81,7 @@ router.get('/site/:username', authMiddleware, async (req, res) => {
 });
 
 // Retrieve journal history for a username
-router.get('/journal/:username', async (req, res) => {
+router.get('/journal/:username', authMiddleware, subscriptionMiddleware, async (req, res) => {
   try {
     const data = await getJournalEntriesByUsername(req.params.username);
     res.json(data);
@@ -87,7 +91,7 @@ router.get('/journal/:username', async (req, res) => {
 });
 
 // Generate daily journal for authenticated user
-router.post('/generateDailyJournal', authMiddleware, async (req, res) => {
+router.post('/generateDailyJournal', authMiddleware, subscriptionMiddleware, async (req, res) => {
   try {
     const entry = await generateDailyJournal(req.user.id);
     res.json(entry);
