@@ -1,23 +1,31 @@
 const { Configuration, OpenAIApi } = require('openai');
 const { supabase } = require('../config/supabase');
 
+// Configure OpenAI client using API key from environment
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
 const openai = new OpenAIApi(configuration);
 
 /**
- * Generate a daily energy message using OpenAI and store it
+ * Generate a personalized daily energy message using GPT-4o.
+ * @param {string} firstName - User first name
+ * @param {string} birthDate - Date of birth YYYY-MM-DD
  */
-async function generateEnergyMessage(prompt) {
+async function generatePersonalEnergyMessage(firstName, birthDate) {
+  const prompt = `Create a short daily energy message for ${firstName} born on ${birthDate}.`;
   const response = await openai.createChatCompletion({
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4o',
     messages: [{ role: 'user', content: prompt }],
   });
   const message = response.data.choices[0].message.content;
-  await supabase.from('energy_messages').insert({ message, date: new Date().toISOString().slice(0,10) });
+  await supabase.from('energy_messages').insert({
+    first_name: firstName,
+    birth_date: birthDate,
+    message,
+    date: new Date().toISOString().slice(0, 10),
+  });
   return message;
 }
 
-module.exports = { generateEnergyMessage };
+module.exports = { generatePersonalEnergyMessage };

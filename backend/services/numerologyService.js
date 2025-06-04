@@ -1,23 +1,23 @@
+const fetch = require('node-fetch');
 const { supabase } = require('../config/supabase');
 
 /**
- * Calculate numerology life path number from birth date (YYYY-MM-DD)
+ * Call NumerologyAPI to compute life path number for given birth date.
+ * Result is stored in Supabase table `numerology_results`.
+ * @param {string} birthDate - Date of birth YYYY-MM-DD
  */
-function calculateLifePath(dob) {
-  const digits = dob.replace(/-/g, '').split('').map(n => parseInt(n, 10));
-  let sum = digits.reduce((a, b) => a + b, 0);
-  while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
-    sum = sum.toString().split('').reduce((a, b) => a + Number(b), 0);
-  }
-  return sum;
-}
-
-/**
- * Compute and store numerology data for a user birth date
- */
-async function getNumerologyInfo(dateOfBirth) {
-  const lifePath = calculateLifePath(dateOfBirth);
-  await supabase.from('numerology_results').insert({ birth_date: dateOfBirth, life_path: lifePath, created_at: new Date().toISOString() });
+async function getNumerologyInfo(birthDate) {
+  const url = `https://numerologyapi.com/api/v1/life-path?date_of_birth=${birthDate}`;
+  const response = await fetch(url, {
+    headers: { 'X-Api-Key': process.env.NUMEROLOGY_API_KEY },
+  });
+  const data = await response.json();
+  const lifePath = data.life_path || null;
+  await supabase.from('numerology_results').insert({
+    birth_date: birthDate,
+    life_path: lifePath,
+    created_at: new Date().toISOString(),
+  });
   return { lifePath };
 }
 
