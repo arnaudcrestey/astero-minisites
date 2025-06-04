@@ -4,6 +4,7 @@ const { generatePersonalEnergyMessage } = require('../services/openaiService');
 const { getNumerologyInfo } = require('../services/numerologyService');
 const { getDailyHoroscope } = require('../services/horoscopeService');
 const { getClientSiteData } = require('../services/clientSiteService');
+const { getUserById } = require('../services/userService');
 const { supabase } = require('../config/supabase');
 const authMiddleware = require('../utils/auth');
 
@@ -39,15 +40,33 @@ router.get('/horoscope/:sign/:dob', authMiddleware, async (req, res) => {
   }
 });
 
+// Generate and store numerology and energy message for authenticated user
+router.post('/generateUserContent', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await getUserById(userId);
+    if (!user) return res.status(404).json({ error: 'user_not_found' });
+
+    const { birth_date: birthDate, first_name: firstName } = user;
+
+    const numerologyData = await getNumerologyInfo(birthDate);
+    const energyMessage = await generatePersonalEnergyMessage(firstName, birthDate);
+
+    res.json({ lifePath: numerologyData.lifePath, energyMessage });
+  } catch (e) {
+    res.status(500).json({ error: 'generation_error' });
+  }
+});
+
 // Return products list
-router.get('/products', async (req, res) => {
+router.get('/products', authMiddleware, async (req, res) => {
   const { data, error } = await supabase.from('products').select('*');
   if (error) return res.status(500).json({ error });
   res.json(data);
 });
 
 // Public route for client mini-site data
-router.get('/site/:username', async (req, res) => {
+router.get('/site/:username', authMiddleware, async (req, res) => {
   try {
     const data = await getClientSiteData(req.params.username);
     res.json(data);

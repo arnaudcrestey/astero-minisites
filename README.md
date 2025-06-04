@@ -25,3 +25,8 @@ Copiez le fichier `.env.example` vers `.env` puis renseignez :
 
 ### Déploiement
 Le frontend est prêt à être déployé sur Vercel. Le backend peut être déployé sur la plateforme de votre choix (Railway, Vercel serverless, etc.).
+
+## Fonctionnalités Sprint 4
+- Modèle `users` géré dans Supabase.
+- Route sécurisée `/api/generateUserContent` pour créer le contenu des mini-sites.
+- Chaque utilisateur possède une page dédiée disponible sur `/[username]` affichant son thème astro, son chemin de vie et son message énergétique.

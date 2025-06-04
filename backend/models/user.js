@@ -1,4 +1,5 @@
-// Example user model structure
+// Users table structure in Supabase
 module.exports = {
-  table: 'profiles',
+  table: 'users',
+  columns: ['id', 'email', 'username', 'first_name', 'birth_date'],
 };
