@@ -18,6 +18,8 @@ async function createPreference(pref) {
       theme: pref.theme,
       color_primary: pref.color_primary,
       background_image: pref.background_image,
+      email_notifications: pref.email_notifications ?? true,
+      daily_email: pref.daily_email ?? false,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     })
