@@ -6,7 +6,7 @@ const { getNumerologyInfo } = require('../services/numerologyService');
 const { getDailyHoroscope } = require('../services/horoscopeService');
 const { getClientSiteData } = require('../services/clientSiteService');
 const { createUser, getUserById, getUserByUsername } = require('../services/userService');
-const { createProfile } = require('../services/profileService');
+const { createProfile, getProfileByUserId } = require('../services/profileService');
 const { createPreference } = require('../services/preferenceService');
 const { createSubscription } = require('../services/subscriptionService');
 const {
@@ -17,6 +17,7 @@ const crypto = require('crypto');
 const { supabase } = require('../config/supabase');
 const authMiddleware = require('../utils/auth');
 const subscriptionMiddleware = require('../utils/subscriptionAuth');
+const securityMiddleware = require('../utils/securityMiddleware');
 
 // Register a new user with mini-site setup
 router.post('/register', async (req, res) => {
@@ -147,6 +148,26 @@ router.post('/generateDailyJournal', authMiddleware, subscriptionMiddleware, asy
     res.json(entry);
   } catch (e) {
     res.status(500).json({ error: 'journal_error' });
+  }
+});
+
+// Retrieve current user profile
+router.get('/user/profile', authMiddleware, securityMiddleware(['admin', 'user', 'premium']), async (req, res) => {
+  try {
+    const profile = await getProfileByUserId(req.user.id);
+    res.json(profile || {});
+  } catch (e) {
+    res.status(500).json({ error: 'profile_error' });
+  }
+});
+
+// Legacy endpoint kept for backward compatibility
+router.get('/profile', authMiddleware, securityMiddleware(['admin', 'user', 'premium']), async (req, res) => {
+  try {
+    const profile = await getProfileByUserId(req.user.id);
+    res.json(profile || {});
+  } catch (e) {
+    res.status(500).json({ error: 'profile_error' });
   }
 });
 

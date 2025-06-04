@@ -16,19 +16,28 @@ app.get('/', (req, res) => {
 
 // Example protected route using Supabase Auth
 const authMiddleware = require('./utils/auth');
-const adminAuth = require('./utils/adminAuth');
+const securityMiddleware = require('./utils/securityMiddleware');
+const { getProfileByUserId } = require('./services/profileService');
 
-app.get('/profile', authMiddleware, async (req, res) => {
-  const { data, error } = await supabase.from('profiles').select('*');
-  if (error) return res.status(500).json({ error });
-  res.json(data);
-});
+app.get(
+  '/user/profile',
+  authMiddleware,
+  securityMiddleware(['admin', 'user', 'premium']),
+  async (req, res) => {
+    try {
+      const profile = await getProfileByUserId(req.user.id);
+      res.json(profile || {});
+    } catch (e) {
+      res.status(500).json({ error: 'profile_error' });
+    }
+  }
+);
 
 app.use('/api', userRoutes);
 app.use('/api', paymentRoutes);
 app.use('/api', preferenceRoutes);
 app.use('/api', uploadRoutes);
-app.use('/admin', authMiddleware, adminAuth, adminRoutes);
+app.use('/admin', authMiddleware, securityMiddleware(['admin']), adminRoutes);
 
 // Start background tasks
 startSchedulers();
