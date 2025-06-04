@@ -4,6 +4,7 @@ const userRoutes = require('./routes/userRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const preferenceRoutes = require('./routes/preferenceRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const { startSchedulers } = require('./scheduler');
 
 const app = express();
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 
 // Example protected route using Supabase Auth
 const authMiddleware = require('./utils/auth');
+const adminAuth = require('./utils/adminAuth');
 
 app.get('/profile', authMiddleware, async (req, res) => {
   const { data, error } = await supabase.from('profiles').select('*');
@@ -26,6 +28,7 @@ app.use('/api', userRoutes);
 app.use('/api', paymentRoutes);
 app.use('/api', preferenceRoutes);
 app.use('/api', uploadRoutes);
+app.use('/admin', authMiddleware, adminAuth, adminRoutes);
 
 // Start background tasks
 startSchedulers();
