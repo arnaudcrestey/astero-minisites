@@ -24,6 +24,7 @@ Copiez le fichier `.env.example` vers `.env` puis renseignez :
 - `NUMEROLOGY_API_KEY`
 - `STRIPE_SECRET_KEY`
 - `FRONTEND_URL`
+- `SUPABASE_STORAGE_BUCKET`
 
 ### Déploiement
 Le frontend est prêt à être déployé sur Vercel. Le backend peut être déployé sur la plateforme de votre choix (Railway, Vercel serverless, etc.).

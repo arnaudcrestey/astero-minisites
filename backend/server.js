@@ -2,6 +2,8 @@ const express = require('express');
 const { supabase } = require('./config/supabase');
 const userRoutes = require('./routes/userRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const preferenceRoutes = require('./routes/preferenceRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
 const { startSchedulers } = require('./scheduler');
 
 const app = express();
@@ -22,6 +24,8 @@ app.get('/profile', authMiddleware, async (req, res) => {
 
 app.use('/api', userRoutes);
 app.use('/api', paymentRoutes);
+app.use('/api', preferenceRoutes);
+app.use('/api', uploadRoutes);
 
 // Start background tasks
 startSchedulers();
