@@ -1,5 +1,6 @@
 const cron = require('node-cron');
 const { generateEnergyMessage } = require('./services/openaiService');
+const { startDailyScheduler } = require('./scheduler/dailyScheduler');
 
 /**
  * Schedule daily generation of energy message at 6 AM server time.
@@ -12,6 +13,8 @@ function startSchedulers() {
       console.error('Scheduler error', e);
     }
   });
+
+  startDailyScheduler();
 }
 
 module.exports = { startSchedulers };

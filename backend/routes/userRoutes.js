@@ -5,6 +5,7 @@ const { getNumerologyInfo } = require('../services/numerologyService');
 const { getDailyHoroscope } = require('../services/horoscopeService');
 const { getClientSiteData } = require('../services/clientSiteService');
 const { getUserById } = require('../services/userService');
+const { generateDailyJournal, getJournalEntriesByUsername } = require('../services/journalService');
 const { supabase } = require('../config/supabase');
 const authMiddleware = require('../utils/auth');
 
@@ -72,6 +73,26 @@ router.get('/site/:username', authMiddleware, async (req, res) => {
     res.json(data);
   } catch (e) {
     res.status(404).json({ error: 'not_found' });
+  }
+});
+
+// Retrieve journal history for a username
+router.get('/journal/:username', async (req, res) => {
+  try {
+    const data = await getJournalEntriesByUsername(req.params.username);
+    res.json(data);
+  } catch (e) {
+    res.status(404).json({ error: 'not_found' });
+  }
+});
+
+// Generate daily journal for authenticated user
+router.post('/generateDailyJournal', authMiddleware, async (req, res) => {
+  try {
+    const entry = await generateDailyJournal(req.user.id);
+    res.json(entry);
+  } catch (e) {
+    res.status(500).json({ error: 'journal_error' });
   }
 });
 
