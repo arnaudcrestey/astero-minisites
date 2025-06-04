@@ -1,5 +1,6 @@
 const { Configuration, OpenAIApi } = require('openai');
 const { supabase } = require('../config/supabase');
+const { assertValidBirthDate, assertRequired } = require('../utils/validators');
 
 // Configure OpenAI client using API key from environment
 const configuration = new Configuration({
@@ -13,6 +14,8 @@ const openai = new OpenAIApi(configuration);
  * @param {string} birthDate - Date of birth YYYY-MM-DD
  */
 async function generatePersonalEnergyMessage(firstName, birthDate, welcome = false) {
+  assertRequired(firstName, 'firstName');
+  assertValidBirthDate(birthDate);
   let prompt = `Create a short daily energy message for ${firstName} born on ${birthDate}.`;
   if (welcome) {
     prompt += ' Welcome the user to Astero in one friendly sentence.';

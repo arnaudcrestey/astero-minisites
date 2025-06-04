@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const { supabase } = require('../config/supabase');
+const { assertValidBirthDate, assertRequired } = require('../utils/validators');
 
 /**
  * Fetch daily horoscope for a zodiac sign from external API and store result.
@@ -7,6 +8,8 @@ const { supabase } = require('../config/supabase');
  * @param {string} birthDate YYYY-MM-DD user birth date
  */
 async function getDailyHoroscope(sign, birthDate) {
+  assertRequired(sign, 'sign');
+  assertValidBirthDate(birthDate);
   try {
     const response = await fetch(`https://aztro.sameerkumar.website/?sign=${sign}&day=today`, { method: 'POST' });
     const data = await response.json();

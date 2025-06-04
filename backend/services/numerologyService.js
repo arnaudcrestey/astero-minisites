@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const { supabase } = require('../config/supabase');
+const { assertValidBirthDate } = require('../utils/validators');
 
 /**
  * Call NumerologyAPI to compute life path number for given birth date.
@@ -7,6 +8,7 @@ const { supabase } = require('../config/supabase');
  * @param {string} birthDate - Date of birth YYYY-MM-DD
  */
 async function getNumerologyInfo(birthDate) {
+  assertValidBirthDate(birthDate);
   const url = `https://numerologyapi.com/api/v1/life-path?date_of_birth=${birthDate}`;
   const response = await fetch(url, {
     headers: { 'X-Api-Key': process.env.NUMEROLOGY_API_KEY },
