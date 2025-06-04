@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { generatePersonalEnergyMessage } = require('../services/openaiService');
+const { initializeUser } = require('../services/initializationService');
 const { getNumerologyInfo } = require('../services/numerologyService');
 const { getDailyHoroscope } = require('../services/horoscopeService');
 const { getClientSiteData } = require('../services/clientSiteService');
@@ -16,24 +17,6 @@ const crypto = require('crypto');
 const { supabase } = require('../config/supabase');
 const authMiddleware = require('../utils/auth');
 const subscriptionMiddleware = require('../utils/subscriptionAuth');
-
-function getZodiacSign(dateStr) {
-  const d = new Date(dateStr);
-  const day = d.getUTCDate();
-  const month = d.getUTCMonth() + 1;
-  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries';
-  if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'taurus';
-  if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return 'gemini';
-  if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return 'cancer';
-  if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return 'leo';
-  if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return 'virgo';
-  if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'libra';
-  if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'scorpio';
-  if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
-  if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn';
-  if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius';
-  return 'pisces';
-}
 
 // Register a new user with mini-site setup
 router.post('/register', async (req, res) => {
@@ -70,12 +53,8 @@ router.post('/register', async (req, res) => {
 
     await createSubscription(userId, 'free_trial');
 
-    await generateDailyJournal(userId);
-
-    await getNumerologyInfo(dob);
-    const sign = getZodiacSign(dob);
-    await getDailyHoroscope(sign, dob);
-    await generatePersonalEnergyMessage(firstName, dob);
+    // Trigger automated content initialization
+    await initializeUser(userId);
 
     res.json({ id: userId, username: finalUsername, profileId });
   } catch (e) {

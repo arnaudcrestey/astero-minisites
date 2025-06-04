@@ -12,8 +12,11 @@ const openai = new OpenAIApi(configuration);
  * @param {string} firstName - User first name
  * @param {string} birthDate - Date of birth YYYY-MM-DD
  */
-async function generatePersonalEnergyMessage(firstName, birthDate) {
-  const prompt = `Create a short daily energy message for ${firstName} born on ${birthDate}.`;
+async function generatePersonalEnergyMessage(firstName, birthDate, welcome = false) {
+  let prompt = `Create a short daily energy message for ${firstName} born on ${birthDate}.`;
+  if (welcome) {
+    prompt += ' Welcome the user to Astero in one friendly sentence.';
+  }
   const response = await openai.createChatCompletion({
     model: 'gpt-4o',
     messages: [{ role: 'user', content: prompt }],
