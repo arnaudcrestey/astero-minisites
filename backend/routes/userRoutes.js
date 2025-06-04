@@ -1,15 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { generateEnergyMessage } = require('../services/openaiService');
+const { generatePersonalEnergyMessage } = require('../services/openaiService');
 const { getNumerologyInfo } = require('../services/numerologyService');
 const { getDailyHoroscope } = require('../services/horoscopeService');
+const { getClientSiteData } = require('../services/clientSiteService');
 const { supabase } = require('../config/supabase');
 const authMiddleware = require('../utils/auth');
 
-// Endpoint to trigger energy message generation and return today's message
-router.get('/energy-message', authMiddleware, async (req, res) => {
+// Endpoint to generate personalized energy message
+router.get('/energy-message/:firstName/:dob', authMiddleware, async (req, res) => {
+  const { firstName, dob } = req.params;
   try {
-    const message = await generateEnergyMessage('Give me a positive energy message');
+    const message = await generatePersonalEnergyMessage(firstName, dob);
     res.json({ message });
   } catch (e) {
     res.status(500).json({ error: 'openai_error' });
@@ -42,6 +44,16 @@ router.get('/products', async (req, res) => {
   const { data, error } = await supabase.from('products').select('*');
   if (error) return res.status(500).json({ error });
   res.json(data);
+});
+
+// Public route for client mini-site data
+router.get('/site/:username', async (req, res) => {
+  try {
+    const data = await getClientSiteData(req.params.username);
+    res.json(data);
+  } catch (e) {
+    res.status(404).json({ error: 'not_found' });
+  }
 });
 
 module.exports = router;
