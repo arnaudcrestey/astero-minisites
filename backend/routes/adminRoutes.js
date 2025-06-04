@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { supabase } = require('../config/supabase');
 
+// Simple admin dashboard route
+router.get('/dashboard', async (req, res) => {
+  res.json({ message: 'Admin dashboard' });
+});
+
 // GET /admin/users - list of users
 router.get('/users', async (req, res) => {
   try {

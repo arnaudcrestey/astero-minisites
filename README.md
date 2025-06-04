@@ -35,3 +35,9 @@ Le frontend est prêt à être déployé sur Vercel. Le backend peut être dépl
 - Modèle `users` géré dans Supabase.
 - Route sécurisée `/api/generateUserContent` pour créer le contenu des mini-sites.
 - Chaque utilisateur possède une page dédiée disponible sur `/[username]` affichant son thème astro, son chemin de vie et son message énergétique.
+
+## Fonctionnalités Sprint 14
+- Gestion des rôles utilisateur avec middleware `securityMiddleware`.
+- Route `GET /admin/dashboard` réservée aux admins.
+- Route `GET /api/user/profile` pour le profil connecté.
+
