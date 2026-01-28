@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background-color: #f5f5f8;
+  background-color: #050814;
 }
 
 body {
-  @apply bg-slate-50 text-slate-800 min-h-screen;
+  @apply bg-slate-950 text-white min-h-screen;
 }
 
 main {
@@ -17,17 +17,17 @@ main {
 }
 
 a {
-  @apply text-brand hover:underline;
+  @apply text-brand-light hover:text-white;
 }
 
 .button-primary {
-  @apply inline-flex items-center justify-center rounded-full bg-brand text-white font-medium px-6 py-3 shadow-soft transition hover:bg-brand/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand;
+  @apply inline-flex items-center justify-center rounded-full bg-gradient-to-r from-brand to-brand-bright px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-brand-bright focus:ring-offset-2 focus:ring-offset-slate-900;
 }
 
-.card {
-  @apply bg-white rounded-3xl shadow-soft border border-slate-100;
+.button-secondary {
+  @apply inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white;
 }
 
-.section-title {
-  @apply text-xl font-semibold flex items-center gap-2 text-slate-900;
+.glass-card {
+  @apply rounded-3xl border border-white/10 bg-white/5 backdrop-blur shadow-soft;
 }
