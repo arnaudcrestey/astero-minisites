@@ -20,10 +20,15 @@ const sections = [
     ],
   },
   {
-    title: "Contacts utiles",
-    icon: "📞",
-    items: ["Inspection du Travail"0806 000 126, "Défenseur des droits" (discrimination, harcèlement ou atteinte aux libertés), "Service-public.fr", "Médecine du travail"],
-  },
+  title: "Contacts utiles",
+  icon: "📞",
+  items: [
+    "Inspection du Travail : 0806 000 126",
+    "Défenseur des droits (discrimination, harcèlement ou atteinte aux libertés)",
+    "Service-public.fr",
+    "Médecine du travail"
+  ],
+},
   {
     title: "Organismes officiels",
     icon: "🏛️",
