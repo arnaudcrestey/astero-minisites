@@ -10,7 +10,6 @@ export default function FormulairePage() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    setSuccess(false);
 
     const formData = new FormData(e.target);
 
@@ -22,15 +21,13 @@ export default function FormulairePage() {
     };
 
     try {
-      const response = await fetch("/api/analyse", {
+      await fetch("/api/analyse", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
-
-      await response.json();
 
       setSuccess(true);
       e.target.reset();
@@ -68,78 +65,86 @@ export default function FormulairePage() {
             </p>
           </div>
 
-          {success && (
-            <div className="mb-6 rounded-xl border border-green-200 bg-green-50 p-4 text-green-800">
-              ✅ Votre demande a bien été envoyée.  
-              Nous reviendrons vers vous rapidement.
+          {!success ? (
+
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="space-y-2 text-sm font-medium text-slate-700">
+                  <span>👤 Nom (optionnel)</span>
+                  <input
+                    type="text"
+                    name="nom"
+                    className="input-field"
+                    placeholder="Votre nom"
+                  />
+                </label>
+
+                <label className="space-y-2 text-sm font-medium text-slate-700">
+                  <span>👤 Prénom (optionnel)</span>
+                  <input
+                    type="text"
+                    name="prenom"
+                    className="input-field"
+                    placeholder="Votre prénom"
+                  />
+                </label>
+              </div>
+
+              <label className="space-y-2 text-sm font-medium text-slate-700">
+                <span>📧 Email</span>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className="input-field"
+                  placeholder="vous@exemple.fr"
+                />
+              </label>
+
+              <label className="space-y-2 text-sm font-medium text-slate-700">
+                <span>📝 Description de la situation</span>
+                <textarea
+                  name="description"
+                  required
+                  rows={8}
+                  className="input-field"
+                  placeholder="Expliquez les faits, les dates importantes, les échanges déjà réalisés et vos attentes."
+                />
+              </label>
+
+              <label className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
+                <input type="checkbox" required />
+                <span>
+                  J'ai compris que BEST fournit une orientation informative et
+                  ne remplace pas un avocat.
+                </span>
+              </label>
+
+              <p className="rounded-xl bg-brand/10 px-4 py-3 text-sm text-brand">
+                Votre message est traité de façon strictement confidentielle.
+              </p>
+
+              <button
+                type="submit"
+                className="button-primary w-full sm:w-auto"
+                disabled={loading}
+              >
+                {loading ? "Envoi en cours..." : "Envoyer ma demande"}
+              </button>
+            </form>
+
+          ) : (
+
+            <div className="rounded-xl border border-green-200 bg-green-50 p-6 text-green-800">
+              <h3 className="text-lg font-semibold mb-2">
+                ✓ Votre demande a bien été envoyée
+              </h3>
+              <p>
+                Merci pour votre message. Nous reviendrons vers vous rapidement.
+              </p>
             </div>
+
           )}
-
-          <form className="space-y-5" onSubmit={handleSubmit}>
-            <div className="grid gap-5 sm:grid-cols-2">
-              <label className="space-y-2 text-sm font-medium text-slate-700">
-                <span>👤 Nom (optionnel)</span>
-                <input
-                  type="text"
-                  name="nom"
-                  className="input-field"
-                  placeholder="Votre nom"
-                />
-              </label>
-
-              <label className="space-y-2 text-sm font-medium text-slate-700">
-                <span>👤 Prénom (optionnel)</span>
-                <input
-                  type="text"
-                  name="prenom"
-                  className="input-field"
-                  placeholder="Votre prénom"
-                />
-              </label>
-            </div>
-
-            <label className="space-y-2 text-sm font-medium text-slate-700">
-              <span>📧 Email</span>
-              <input
-                type="email"
-                name="email"
-                required
-                className="input-field"
-                placeholder="vous@exemple.fr"
-              />
-            </label>
-
-            <label className="space-y-2 text-sm font-medium text-slate-700">
-              <span>📝 Description de la situation</span>
-              <textarea
-                name="description"
-                required
-                rows={8}
-                className="input-field"
-                placeholder="Expliquez les faits, les dates importantes, les échanges déjà réalisés et vos attentes."
-              />
-            </label>
-
-            <label className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
-              <input type="checkbox" required />
-              <span>
-                J'ai compris que BEST fournit une orientation informative et ne
-                remplace pas un avocat.
-              </span>
-            </label>
-
-            <p className="rounded-xl bg-brand/10 px-4 py-3 text-sm text-brand">
-              Votre message est traité de façon strictement confidentielle.
-            </p>
-
-            <button
-              type="submit"
-              className="button-primary w-full sm:w-auto"
-              disabled={loading}
-            >
-              {loading ? "Envoi en cours..." : "Envoyer ma demande"}
-            </button>
-          </form>
         </section>
       </main>
     </SiteShell>
