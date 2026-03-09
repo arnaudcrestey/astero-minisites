@@ -21,7 +21,7 @@ const benefits = [
 
 const steps = [
   { title: "Décrire la situation", text: "Vous expliquez simplement les faits importants, à votre rythme." },
-  { title: "Analyse automatique", text: "Notre moteur IA croise vos informations avec les bases juridiques utiles." },
+  { title: "Analyse de votre situation", text: "Votre situation est analysée à partir des règles du droit du travail applicables." },
   { title: "Recommandations personnalisées", text: "Vous recevez des pistes d'action claires et hiérarchisées." },
 ];
 
@@ -76,7 +76,7 @@ export default function HomePage() {
                 </div>
                 <div className="rounded-2xl bg-slate-100 p-4">
                   <p className="text-xs text-slate-500">Réponse</p>
-                  <p className="mt-1 text-sm font-semibold">Analyse automatique</p>
+                  <p className="mt-1 text-sm font-semibold">Analyse rapide de votre situation</p>
                 </div>
                 <div className="rounded-2xl bg-slate-100 p-4">
                   <p className="text-xs text-slate-500">Positionnement</p>
