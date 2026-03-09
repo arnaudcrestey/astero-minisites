@@ -2,17 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Assistant Recette Pro",
+  title: "BEST | Bien-être des Salariés au Travail",
   description:
-    "Générez des recettes professionnelles de boulangerie, pâtisserie, viennoiserie et pizza adaptées à votre matériel.",
+    "Plateforme d'aide confidentielle pour les salariés : analyse automatique basée sur le Code du travail et ressources juridiques utiles.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className="bg-slate-50">
-      <body className="bg-slate-50 text-slate-800 antialiased">
-        {children}
-      </body>
+    <html lang="fr">
+      <body>{children}</body>
     </html>
   );
 }

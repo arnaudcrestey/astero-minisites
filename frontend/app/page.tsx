@@ -1,121 +1,154 @@
-'use client';
+import Link from "next/link";
+import SiteShell from "../components/best/SiteShell";
 
-import { useEffect, useState } from "react";
-import RecipeForm from "../components/RecipeForm";
-import RecipeCard from "../components/RecipeCard";
-import HistoryPanel, { type HistoryEntry } from "../components/HistoryPanel";
-import { generateRecipe, type GeneratedRecipe, type RecipeInput } from "../lib/recipeGenerator";
+const benefits = [
+  {
+    title: "100% confidentiel",
+    text: "Vos données sont traitées avec discrétion pour vous permettre de parler librement.",
+    icon: "🔒",
+  },
+  {
+    title: "Basé sur le droit du travail",
+    text: "L'analyse s'appuie sur le Code du travail et des sources juridiques reconnues.",
+    icon: "⚖️",
+  },
+  {
+    title: "Gratuit",
+    text: "Un accompagnement informatif sans frais, accessible immédiatement.",
+    icon: "💙",
+  },
+];
 
-const STORAGE_KEY = "assistant-recette-pro-history";
+const steps = [
+  { title: "Décrire la situation", text: "Vous expliquez simplement les faits importants, à votre rythme." },
+  { title: "Analyse automatique", text: "Notre moteur IA croise vos informations avec les bases juridiques utiles." },
+  { title: "Recommandations personnalisées", text: "Vous recevez des pistes d'action claires et hiérarchisées." },
+];
 
-const HomePage = () => {
-  const [currentRecipe, setCurrentRecipe] = useState<GeneratedRecipe | null>(null);
-  const [history, setHistory] = useState<HistoryEntry[]>([]);
-  const [isGenerating, setIsGenerating] = useState(false);
+const situations = ["Harcèlement", "Conflit hiérarchique", "Contrat de travail", "Conditions de travail", "Santé au travail"];
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed: HistoryEntry[] = JSON.parse(stored);
-        setHistory(parsed);
-        if (parsed[0]) {
-          setCurrentRecipe(parsed[0].recipe);
-        }
-      }
-    } catch (error) {
-      console.error("Impossible de charger l'historique", error);
-    }
-  }, []);
+const testimonials = [
+  {
+    quote: "Je me suis sentie écoutée et surtout guidée étape par étape sans jugement.",
+    role: "Employée administrative",
+  },
+  {
+    quote: "Le service m'a aidé à mieux préparer mon échange avec les RH et le CSE.",
+    role: "Salarié secteur logistique",
+  },
+  {
+    quote: "Clair, rapide et rassurant quand on est stressé et qu'on ne sait plus par où commencer.",
+    role: "Cadre en PME",
+  },
+];
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-  }, [history]);
-
-  const handleGenerate = (input: RecipeInput) => {
-    setIsGenerating(true);
-    window.setTimeout(() => {
-      const recipe = generateRecipe(input);
-      setCurrentRecipe(recipe);
-      setHistory((prev) => {
-        const next: HistoryEntry[] = [
-          { id: recipe.id, createdAt: new Date().toISOString(), recipe },
-          ...prev.filter((entry) => entry.recipe.title !== recipe.title || entry.recipe.servings !== recipe.servings),
-        ].slice(0, 10);
-        return next;
-      });
-      setIsGenerating(false);
-    }, 420);
-  };
-
-  const handleSelectFromHistory = (id: string) => {
-    const entry = history.find((item) => item.id === id);
-    if (entry) {
-      setCurrentRecipe(entry.recipe);
-    }
-  };
-
-  const handleClearHistory = () => {
-    setHistory([]);
-  };
-
+export default function HomePage() {
   return (
-    <main className="px-4 py-10 sm:px-6 lg:px-10">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
-        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand to-brand/80 p-8 text-white shadow-soft">
-          <div className="max-w-3xl space-y-4">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1 text-xs font-medium uppercase tracking-wide">
-              Assistant Recette Pro
-            </span>
-            <h1 className="text-3xl font-semibold sm:text-4xl">Fiches techniques instantanées pour boulangers et pâtissiers</h1>
-            <p className="text-sm sm:text-base text-white/80">
-              De la viennoiserie au flan en passant par la pâte à pizza, obtenez en quelques secondes une fiche claire,
-              professionnelle et adaptée à votre matériel. Prêt pour la production ?
-            </p>
-            <ul className="grid gap-2 text-xs sm:grid-cols-3 sm:text-sm">
-              <li className="flex items-center gap-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 text-lg">⚙️</span>
-                <span>Adapter aux équipements sélectionnés</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 text-lg">📏</span>
-                <span>Grammages recalculés instantanément</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 text-lg">🧠</span>
-                <span>Tips de chef & check-list finale</span>
-              </li>
-            </ul>
+    <SiteShell>
+      <main>
+        <section className="hero-wrapper">
+          <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:py-20">
+            <div className="space-y-6">
+              <p className="badge">Plateforme d'aide juridique confidentielle</p>
+              <h1 className="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">Aide confidentielle pour les salariés en difficulté</h1>
+              <p className="max-w-2xl text-lg text-slate-600">Décrivez votre situation et recevez une analyse basée sur le Code du travail.</p>
+              <div className="flex flex-wrap gap-3">
+                <Link href="/formulaire" className="button-primary">
+                  Commencer
+                </Link>
+                <Link href="/presentation" className="button-secondary">
+                  Comprendre le service
+                </Link>
+              </div>
+              <ul className="grid gap-2 text-sm text-slate-600 sm:grid-cols-3">
+                <li>✓ Sans jargon inutile</li>
+                <li>✓ Orientation concrète</li>
+                <li>✓ Conçu pour les moments sensibles</li>
+              </ul>
+            </div>
+
+            <aside className="card p-6 sm:p-8">
+              <h2 className="text-lg font-semibold text-slate-900">Repères immédiats</h2>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <div className="rounded-2xl bg-slate-100 p-4">
+                  <p className="text-xs text-slate-500">Confidentialité</p>
+                  <p className="mt-1 text-sm font-semibold">Strictement respectée</p>
+                </div>
+                <div className="rounded-2xl bg-slate-100 p-4">
+                  <p className="text-xs text-slate-500">Réponse</p>
+                  <p className="mt-1 text-sm font-semibold">Analyse automatique</p>
+                </div>
+                <div className="rounded-2xl bg-slate-100 p-4">
+                  <p className="text-xs text-slate-500">Positionnement</p>
+                  <p className="mt-1 text-sm font-semibold">Information juridique</p>
+                </div>
+                <div className="rounded-2xl bg-slate-100 p-4">
+                  <p className="text-xs text-slate-500">Accès</p>
+                  <p className="mt-1 text-sm font-semibold">Gratuit</p>
+                </div>
+              </div>
+            </aside>
           </div>
         </section>
 
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(260px,1fr)]">
-          <div className="space-y-6">
-            <RecipeForm onGenerate={handleGenerate} isGenerating={isGenerating} />
-            {currentRecipe ? (
-              <RecipeCard recipe={currentRecipe} onReset={() => setCurrentRecipe(null)} />
-            ) : (
-              <div className="card flex flex-col items-start gap-4 p-6 text-sm text-slate-600 sm:p-10">
-                <h2 className="text-lg font-semibold text-slate-900">Votre fiche apparaîtra ici</h2>
-                <p>
-                  Renseignez le formulaire ci-dessus pour générer automatiquement une fiche complète : ingrédients, matériel,
-                  étapes avec temps et astuces de chef.
-                </p>
-                <ul className="space-y-2 text-xs text-slate-500">
-                  <li>• Ajoutez plusieurs équipements pour obtenir des recommandations adaptées.</li>
-                  <li>• Les fiches restent enregistrées dans l'historique local pour consultation ultérieure.</li>
-                  <li>• Utilisez le bouton « Imprimer » pour obtenir une version papier ou PDF.</li>
-                </ul>
-              </div>
-            )}
-          </div>
-          <HistoryPanel entries={history} onSelect={handleSelectFromHistory} onClear={handleClearHistory} />
-        </div>
-      </div>
-    </main>
-  );
-};
+        <section className="mx-auto grid w-full max-w-6xl gap-4 px-4 pb-14 sm:px-6 md:grid-cols-3 lg:px-8">
+          {benefits.map((item) => (
+            <article key={item.title} className="card p-6">
+              <p className="text-2xl">{item.icon}</p>
+              <h2 className="mt-4 text-lg font-semibold">{item.title}</h2>
+              <p className="mt-2 text-sm text-slate-600">{item.text}</p>
+            </article>
+          ))}
+        </section>
 
-export default HomePage;
+        <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
+          <div className="card p-6 sm:p-8">
+            <h2 className="section-title">Comment ça fonctionne</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {steps.map((step, index) => (
+                <article key={step.title} className="rounded-2xl border border-slate-200 bg-white p-5">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-brand">Étape {index + 1}</p>
+                  <h3 className="mt-2 font-semibold">{step.title}</h3>
+                  <p className="mt-2 text-sm text-slate-600">{step.text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
+          <h2 className="section-title">Types de situations accompagnées</h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {situations.map((item) => (
+              <div key={item} className="rounded-2xl border border-slate-200 bg-white px-4 py-5 text-sm font-medium text-slate-700 shadow-sm">
+                {item}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+          <h2 className="section-title">Témoignages anonymes</h2>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {testimonials.map((item) => (
+              <blockquote key={item.role} className="card p-6">
+                <p className="text-slate-700">“{item.quote}”</p>
+                <footer className="mt-4 text-sm font-medium text-slate-500">— {item.role}</footer>
+              </blockquote>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto mb-20 w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl bg-brand px-6 py-10 text-center text-white shadow-soft sm:px-10">
+            <h2 className="text-2xl font-semibold">Prêt(e) à faire le point sur votre situation ?</h2>
+            <p className="mt-3 text-white/90">Commencez votre demande confidentielle en quelques minutes.</p>
+            <Link href="/formulaire" className="mt-6 inline-flex rounded-full bg-white px-6 py-3 font-semibold text-brand no-underline transition hover:bg-slate-100">
+              Commencer maintenant
+            </Link>
+          </div>
+        </section>
+      </main>
+    </SiteShell>
+  );
+}
