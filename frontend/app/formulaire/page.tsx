@@ -5,10 +5,12 @@ import { useState } from "react";
 
 export default function FormulairePage() {
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
+    setSuccess(false);
 
     const formData = new FormData(e.target);
 
@@ -28,11 +30,12 @@ export default function FormulairePage() {
         body: JSON.stringify(data),
       });
 
-      const result = await response.json();
+      await response.json();
 
-      alert("Analyse BEST :\n\n" + result.result);
+      setSuccess(true);
+      e.target.reset();
     } catch (error) {
-      alert("Erreur lors de l'analyse.");
+      console.error(error);
     }
 
     setLoading(false);
@@ -64,6 +67,13 @@ export default function FormulairePage() {
               observés. Cela améliore la qualité de l'orientation.
             </p>
           </div>
+
+          {success && (
+            <div className="mb-6 rounded-xl border border-green-200 bg-green-50 p-4 text-green-800">
+              ✅ Votre demande a bien été envoyée.  
+              Nous reviendrons vers vous rapidement.
+            </div>
+          )}
 
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="grid gap-5 sm:grid-cols-2">
@@ -127,7 +137,7 @@ export default function FormulairePage() {
               className="button-primary w-full sm:w-auto"
               disabled={loading}
             >
-              {loading ? "Analyse en cours..." : "Envoyer ma demande"}
+              {loading ? "Envoi en cours..." : "Envoyer ma demande"}
             </button>
           </form>
         </section>
