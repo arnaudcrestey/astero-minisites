@@ -29,7 +29,7 @@ const situations = ["Harcèlement", "Conflit hiérarchique", "Contrat de travail
 
 const testimonials = [
   {
-    quote: "Je me suis sentie écoutée et surtout guidée étape par étape sans jugement.",
+    quote: "Les réponses m’ont permis d’y voir plus clair et de comprendre les démarches possibles.",
     role: "Employée administrative",
   },
   {
