@@ -314,7 +314,7 @@ export function ResultClient() {
 
 
             <p className="text-sm text-white/70 text-left">
-              Heure de naissance (optionnel)
+              Heure de naissance 
             </p>
 
             <div className="grid grid-cols-2 gap-3">
