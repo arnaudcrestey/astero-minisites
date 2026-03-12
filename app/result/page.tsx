@@ -8,9 +8,15 @@ import { useEffect, useState } from "react";
 export default function ResultPage() {
 
   const params = useSearchParams();
+
   const score = Number(params.get("score")) || 0;
+  const type = params.get("type") || "celibataire";
+  const answersParam = params.get("answers") || "";
+
+  const answers = answersParam ? answersParam.split(",") : [];
 
   const [analysis, setAnalysis] = useState("Analyse en cours...");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
@@ -25,8 +31,8 @@ export default function ResultPage() {
           },
           body: JSON.stringify({
             score,
-            profile: "relationnel",
-            answers: []
+            type,
+            answers
           })
         });
 
@@ -34,6 +40,8 @@ export default function ResultPage() {
 
         if (data.analysis) {
           setAnalysis(data.analysis);
+        } else {
+          setAnalysis("Analyse indisponible pour le moment.");
         }
 
       } catch (error) {
@@ -41,21 +49,21 @@ export default function ResultPage() {
         console.error(error);
         setAnalysis("Impossible de générer l'analyse pour le moment.");
 
+      } finally {
+        setLoading(false);
       }
 
     }
 
     generateAnalysis();
 
-  }, [score]);
+  }, [score, type, answersParam]);
 
   return (
 
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10">
 
       <section className="glass-card relative z-10 w-full max-w-3xl rounded-3xl px-6 py-10 text-center md:px-14">
-
-        {/* Header */}
 
         <p className="text-xs tracking-widest text-slate-300/70">
           RÉSULTAT LOVE SCAN
@@ -68,8 +76,6 @@ export default function ResultPage() {
         {/* Radar + Diagnostic */}
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
-
-          {/* Diagnostic */}
 
           <div className="rounded-2xl bg-white/5 p-6 text-left">
 
@@ -92,8 +98,6 @@ export default function ResultPage() {
 
           </div>
 
-          {/* Radar */}
-
           <div className="rounded-2xl bg-white/5 p-6">
 
             <h3 className="font-semibold mb-4 text-sm text-center">
@@ -108,7 +112,7 @@ export default function ResultPage() {
 
         </div>
 
-        {/* Analyse personnalisée */}
+        {/* Analyse GPT */}
 
         <div className="mt-8 rounded-2xl bg-white/5 p-6 text-left">
 
@@ -116,9 +120,15 @@ export default function ResultPage() {
             Analyse personnalisée
           </h3>
 
-          <p className="text-sm text-slate-200/80 whitespace-pre-line">
-            {analysis}
-          </p>
+          {loading ? (
+            <p className="text-sm text-slate-200/80">
+              Analyse en cours...
+            </p>
+          ) : (
+            <p className="text-sm text-slate-200/80 whitespace-pre-line">
+              {analysis}
+            </p>
+          )}
 
         </div>
 
@@ -151,7 +161,7 @@ export default function ResultPage() {
 
         </div>
 
-              </section>
+      </section>
 
     </main>
   );
