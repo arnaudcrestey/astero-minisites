@@ -23,7 +23,7 @@ export default function HomePage() {
         <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-100/90 md:text-2xl md:leading-relaxed">
           En <strong>10 questions</strong>, découvrez ce que votre façon d’aimer révèle vraiment.
           <br />
-          Certaines réponses mettent en lumière  <strong>les erreurs invisibles</strong>qui peuvent saboter vos relations.
+          Certaines réponses mettent en lumière  <strong>les erreurs invisibles</strong>{' '}qui peuvent saboter vos relations.
         </p>
 
         {/* Credibility */}
