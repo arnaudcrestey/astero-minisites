@@ -19,7 +19,7 @@ export default function RadarLove({ score }: Props) {
     { dimension: "Communication", value: Math.min(score + 5, 100) },
     { dimension: "Attachement", value: Math.max(score - 5, 0) },
     { dimension: "Stabilité", value: score },
-    { dimension: "Projection", value: Math.min(score + 2, 100) }
+    { dimension: "Vision", value: Math.min(score + 2, 100) }
   ];
 
   return (
