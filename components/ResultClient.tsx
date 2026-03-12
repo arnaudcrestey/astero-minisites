@@ -8,11 +8,19 @@ import { useEffect, useState } from "react";
 export function ResultClient() {
 
   const params = useSearchParams();
-
   const score = Number(params.get("score")) || 0;
 
   const [analysis, setAnalysis] = useState("Analyse en cours...");
   const [loading, setLoading] = useState(true);
+
+  const [firstName, setFirstName] = useState("");
+  const [email, setEmail] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [birthTime, setBirthTime] = useState("");
+  const [birthPlace, setBirthPlace] = useState("");
+
+  const [sending, setSending] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
 
@@ -41,7 +49,9 @@ export function ResultClient() {
         setAnalysis("Impossible de générer l'analyse pour le moment.");
 
       } finally {
+
         setLoading(false);
+
       }
 
     }
@@ -50,102 +60,272 @@ export function ResultClient() {
 
   }, [score]);
 
-  return (
 
-    <section className="glass-card relative z-10 w-full max-w-3xl rounded-3xl px-6 py-10 text-center md:px-14">
+  async function handleSubmit(e: React.FormEvent) {
 
-      <p className="text-xs tracking-widest text-slate-300/70">
-        RÉSULTAT LOVE SCAN
-      </p>
+    e.preventDefault();
 
-      <h1 className="mt-2 text-4xl font-extrabold md:text-5xl">
-        Score relationnel : {score} %
-      </h1>
+    if (sending) return;
 
-      <div className="mt-8 grid gap-6 md:grid-cols-2">
+    setSending(true);
 
-        {/* Diagnostic */}
+    const data = {
+      firstName,
+      email,
+      birthDate,
+      birthTime,
+      birthPlace
+    };
 
-        <div className="rounded-2xl bg-white/5 p-6 text-left">
+    try {
 
-          <h3 className="font-semibold mb-2">
-            Diagnostic principal
-          </h3>
+      const res = await fetch("/api/lead-astrologie", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
 
-          <p className="text-sm text-slate-200/80">
-            Votre score indique une capacité à créer du lien et à
-            construire des relations équilibrées, avec encore
-            quelques ajustements possibles dans la communication
-            émotionnelle.
+      const result = await res.json();
+
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        alert("Une erreur est survenue.");
+      }
+
+    } catch (error) {
+
+      console.error(error);
+      alert("Erreur de connexion au serveur.");
+
+    }
+
+    setSending(false);
+
+  }
+
+
+  if (submitted) {
+
+    return (
+
+      <main className="flex min-h-screen items-center justify-center px-6 text-center">
+
+        <div className="glass max-w-xl rounded-2xl p-10">
+
+          <h2 className="text-3xl font-semibold mb-4">
+            ✓ Demande envoyée
+          </h2>
+
+          <p className="text-white/80">
+            Votre première lecture personnalisée vous sera envoyée
+            par email dans quelques instants.
           </p>
 
-          <ul className="mt-4 text-sm space-y-1 text-slate-200/80">
-            <li>• Bonne conscience relationnelle</li>
-            <li>• Capacité à créer du lien</li>
-            <li>• Potentiel d’évolution émotionnelle</li>
-          </ul>
+          <p className="mt-6 text-white/60 text-sm">
+            Pensez à vérifier vos spams si vous ne voyez rien apparaître.
+          </p>
 
         </div>
 
-        {/* Radar */}
+      </main>
 
-        <div className="rounded-2xl bg-white/5 p-6">
+    );
 
-          <h3 className="font-semibold mb-4 text-sm text-center">
-            Profil relationnel
-          </h3>
+  }
 
-          <div className="flex items-center justify-center">
-            <RadarLove score={score} />
+  return (
+
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10">
+
+      <section className="glass-card relative z-10 w-full max-w-5xl rounded-3xl px-6 py-10 text-center md:px-14">
+
+        <p className="text-xs tracking-widest text-slate-300/70">
+          RÉSULTAT LOVE SCAN
+        </p>
+
+        <h1 className="mt-2 text-4xl font-extrabold md:text-5xl">
+          Score relationnel : {score} %
+        </h1>
+
+
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+
+
+          <div className="rounded-2xl bg-white/5 p-6 text-left">
+
+            <h3 className="font-semibold mb-2">
+              Diagnostic principal
+            </h3>
+
+            <p className="text-sm text-slate-200/80">
+              Votre score indique une capacité à créer du lien et à
+              construire des relations équilibrées, avec encore
+              quelques ajustements possibles dans la communication
+              émotionnelle.
+            </p>
+
+            <ul className="mt-4 text-sm space-y-1 text-slate-200/80">
+              <li>• Bonne conscience relationnelle</li>
+              <li>• Capacité à créer du lien</li>
+              <li>• Potentiel d’évolution émotionnelle</li>
+            </ul>
+
+          </div>
+
+
+          <div className="rounded-2xl bg-white/5 p-6">
+
+            <h3 className="font-semibold mb-4 text-sm text-center">
+              Profil relationnel
+            </h3>
+
+            <div className="flex items-center justify-center">
+              <RadarLove score={score} />
+            </div>
+
           </div>
 
         </div>
 
-      </div>
 
-      {/* Analyse GPT */}
+        <div className="mt-8 rounded-2xl bg-white/5 p-6 text-left">
 
-      <div className="mt-8 rounded-2xl bg-white/5 p-6 text-left">
+          <h3 className="font-semibold mb-2">
+            Analyse personnalisée
+          </h3>
 
-        <h3 className="font-semibold mb-2">
-          Analyse personnalisée
-        </h3>
+          {loading ? (
+            <p className="text-sm text-slate-200/80">
+              Analyse en cours...
+            </p>
+          ) : (
+            <p className="text-sm text-slate-200/80 whitespace-pre-line">
+              {analysis}
+            </p>
+          )}
 
-        {loading ? (
-          <p className="text-sm text-slate-200/80">
-            Analyse en cours...
+        </div>
+
+
+        <section className="mt-12 rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-white/0 p-8 md:p-10 text-center shadow-xl">
+
+          <h2 className="text-2xl md:text-3xl font-semibold mb-4">
+            Comprendre réellement votre dynamique amoureuse
+          </h2>
+
+          <p className="text-white/80 max-w-2xl mx-auto leading-relaxed">
+            Certaines dynamiques relationnelles peuvent être liées à des
+            facteurs plus profonds que la simple expérience sentimentale.
           </p>
-        ) : (
-          <p className="text-sm text-slate-200/80 whitespace-pre-line">
-            {analysis}
+
+          <p className="mt-4 text-white/80 max-w-2xl mx-auto leading-relaxed">
+            Au <strong>Cabinet Astrae</strong>, l’étude du thème astral est utilisée
+            pour mieux comprendre les mécanismes émotionnels qui influencent
+            vos relations.
           </p>
-        )}
 
-      </div>
+          <p className="mt-6 text-white/70 max-w-2xl mx-auto">
+            Recevez gratuitement une première lecture personnalisée :
+          </p>
 
-      {/* Astrae */}
 
-      <div className="mt-10 rounded-2xl bg-white/5 p-6">
+          <form
+            onSubmit={handleSubmit}
+            className="mt-8 flex flex-col gap-4 w-full max-w-md mx-auto"
+          >
 
-        <h3 className="text-lg font-semibold">
-          Comprendre vraiment votre profil amoureux
-        </h3>
+            <input
+              type="text"
+              placeholder="Votre prénom"
+              value={firstName}
+              onChange={(e)=>setFirstName(e.target.value)}
+              required
+              className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+            />
 
-        <p className="mt-3 text-sm text-slate-200/80">
-          Certaines dynamiques relationnelles peuvent être liées à
-          votre personnalité profonde et à votre trajectoire
-          émotionnelle.
-        </p>
+            <input
+              type="email"
+              placeholder="Votre email"
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
+              required
+              className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+            />
 
-        <Link
-          href="https://arnaudcrestey.com"
-          className="mt-6 inline-block rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-3 font-semibold"
-        >
-          Découvrir mon analyse Astrae
-        </Link>
 
-      </div>
+            <div className="grid grid-cols-3 gap-3">
 
-    </section>
+              <input
+                type="number"
+                placeholder="Jour"
+                className="rounded-xl bg-white px-4 py-3 text-black text-center"
+              />
+
+              <input
+                type="number"
+                placeholder="Mois"
+                className="rounded-xl bg-white px-4 py-3 text-black text-center"
+              />
+
+              <input
+                type="number"
+                placeholder="Année"
+                className="rounded-xl bg-white px-4 py-3 text-black text-center"
+              />
+
+            </div>
+
+
+            <div className="grid grid-cols-2 gap-3">
+
+              <input
+                type="number"
+                placeholder="Heure"
+                className="rounded-xl bg-white px-4 py-3 text-black text-center"
+              />
+
+              <input
+                type="number"
+                placeholder="Minute"
+                className="rounded-xl bg-white px-4 py-3 text-black text-center"
+              />
+
+            </div>
+
+
+            <input
+              type="text"
+              placeholder="Ville de naissance"
+              value={birthPlace}
+              onChange={(e)=>setBirthPlace(e.target.value)}
+              required
+              className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+            />
+
+
+            <button
+              type="submit"
+              disabled={sending}
+              className="mt-2 w-full rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 py-4 text-lg font-semibold text-white"
+            >
+              Recevoir ma première analyse
+            </button>
+
+          </form>
+
+          <p className="mt-6 text-sm text-white/60">
+            Vos informations restent confidentielles et ne seront jamais partagées.
+          </p>
+
+        </section>
+
+      </section>
+
+    </main>
+
   );
+
 }
