@@ -48,9 +48,19 @@ export default function ResultPage() {
 
           {/* Radar */}
 
-          <div className="rounded-2xl bg-white/5 p-6 flex items-center justify-center">
+          <div className="rounded-2xl bg-white/5 p-6">
 
-            <RadarLove score={score} />
+            <h3 className="font-semibold mb-4 text-sm text-center">
+              Profil relationnel
+            </h3>
+
+            <div className="flex items-center justify-center">
+              <RadarLove score={score} />
+            </div>
+
+            <div className="mt-4 text-xs text-slate-300/70 text-center">
+              Communication • Attachement • Stabilité • Vision
+            </div>
 
           </div>
 
