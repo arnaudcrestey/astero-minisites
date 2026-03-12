@@ -52,15 +52,6 @@ Analyse
 
 Rédigez un court paragraphe expliquant ce que signifie un score de ${score}% dans la manière d'aimer.
 
-Recommandations
-
-Proposez 3 recommandations concrètes permettant d'améliorer la qualité des relations.
-
-1.
-2.
-3.
-
-Conclusion
 
 Terminez par une phrase ouvrant sur une réflexion plus profonde.
 
