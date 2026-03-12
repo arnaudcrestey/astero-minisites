@@ -37,7 +37,7 @@ export default function HomePage() {
 
         {/* Credibility */}
         <div className="mt-6 text-xs text-slate-200/70 md:text-sm">
-          ✔ Test anonyme &nbsp;•&nbsp; ✔ 3 minutes &nbsp;•&nbsp; ✔ Analyse Relationnelle
+          ✔ Test anonyme &nbsp;•&nbsp; ✔ 2 minutes &nbsp;•&nbsp; ✔ Analyse Relationnelle
         </div>
 
         {/* Buttons */}
