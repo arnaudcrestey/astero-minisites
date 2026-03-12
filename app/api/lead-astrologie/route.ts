@@ -12,7 +12,8 @@ export async function POST(req: Request) {
       email,
       birthDate,
       birthTime,
-      birthPlace
+      birthPlace,
+      score
     } = body;
 
     const transporter = nodemailer.createTransport({
@@ -24,24 +25,30 @@ export async function POST(req: Request) {
     });
 
     await transporter.sendMail({
-      from: `"Cabinet Astrae" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: "Votre première lecture Astrae",
+
+      from: `"LOVE SCAN - Cabinet Astrae" <${process.env.EMAIL_USER}>`,
+
+      to: "arnaud.crestey14@gmail.com",
+
+      subject: "Nouveau lead LOVE SCAN",
+
       html: `
-        <h2>Bonjour ${firstName},</h2>
-        <p>Merci pour votre demande.</p>
+        <h2>Nouveau lead LOVE SCAN</h2>
 
-        <p>Votre première lecture personnalisée sera envoyée prochainement.</p>
+        <p><strong>Score relationnel :</strong> ${score}%</p>
 
-        <p><strong>Données reçues :</strong></p>
+        <p><strong>Prénom :</strong> ${firstName}</p>
+        <p><strong>Email :</strong> ${email}</p>
+
+        <h3>Données astrologiques</h3>
 
         <ul>
-          <li>Date de naissance : ${birthDate}</li>
-          <li>Heure de naissance : ${birthTime || "Non précisée"}</li>
-          <li>Lieu de naissance : ${birthPlace}</li>
+          <li><strong>Date de naissance :</strong> ${birthDate}</li>
+          <li><strong>Heure de naissance :</strong> ${birthTime || "Non précisée"}</li>
+          <li><strong>Lieu de naissance :</strong> ${birthPlace}</li>
         </ul>
 
-        <p>Cabinet Astrae</p>
+        <p>Demande envoyée depuis l'outil <strong>LOVE SCAN</strong>.</p>
       `
     });
 
