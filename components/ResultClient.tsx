@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import RadarLove from "@/components/RadarLove";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -154,7 +153,6 @@ export function ResultClient() {
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
 
-
           <div className="rounded-2xl bg-white/5 p-6 text-left">
 
             <h3 className="font-semibold mb-2">
@@ -175,7 +173,6 @@ export function ResultClient() {
             </ul>
 
           </div>
-
 
           <div className="rounded-2xl bg-white/5 p-6">
 
@@ -228,9 +225,9 @@ export function ResultClient() {
             vos relations.
           </p>
 
-          <p className="mt-6 text-lg text-white text-center font-medium">
-  🎁 Recevez <span className="text-cyan-300 font-bold">gratuitement</span> votre première lecture personnalisée
-</p>
+          <p className="mt-6 text-lg text-white font-medium">
+            🎁 Recevez <span className="text-cyan-300 font-bold">gratuitement</span> votre première lecture personnalisée
+          </p>
 
 
           <form
@@ -244,7 +241,7 @@ export function ResultClient() {
               value={firstName}
               onChange={(e)=>setFirstName(e.target.value)}
               required
-              className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+              className="w-full rounded-xl bg-white px-4 py-3 text-black"
             />
 
             <input
@@ -253,101 +250,108 @@ export function ResultClient() {
               value={email}
               onChange={(e)=>setEmail(e.target.value)}
               required
-              className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+              className="w-full rounded-xl bg-white px-4 py-3 text-black"
             />
 
+            <p className="text-sm text-white/70 text-left">
+              Date de naissance
+            </p>
 
             <div className="grid grid-cols-3 gap-3">
 
-  <input
-    type="number"
-    placeholder="Jour"
-    min="1"
-    max="31"
-    onChange={(e)=>{
-      const day = e.target.value.padStart(2,"0");
-      setBirthDate(prev=>{
-        const parts = prev.split("-");
-        const month = parts[1] || "";
-        const year = parts[2] || "";
-        return `${day}-${month}-${year}`;
-      });
-    }}
-    className="rounded-xl bg-white px-4 py-3 text-black text-center"
-  />
+              <input
+                type="number"
+                placeholder="Jour"
+                min="1"
+                max="31"
+                onChange={(e)=>{
+                  const day = e.target.value.padStart(2,"0");
+                  setBirthDate(prev=>{
+                    const parts = prev.split("-");
+                    const month = parts[1] || "";
+                    const year = parts[2] || "";
+                    return `${day}-${month}-${year}`;
+                  });
+                }}
+                className="rounded-xl bg-white px-4 py-3 text-black text-center"
+              />
 
-  <input
-    type="number"
-    placeholder="Mois"
-    min="1"
-    max="12"
-    onChange={(e)=>{
-      const month = e.target.value.padStart(2,"0");
-      setBirthDate(prev=>{
-        const parts = prev.split("-");
-        const day = parts[0] || "";
-        const year = parts[2] || "";
-        return `${day}-${month}-${year}`;
-      });
-    }}
-    className="rounded-xl bg-white px-4 py-3 text-black text-center"
-  />
+              <input
+                type="number"
+                placeholder="Mois"
+                min="1"
+                max="12"
+                onChange={(e)=>{
+                  const month = e.target.value.padStart(2,"0");
+                  setBirthDate(prev=>{
+                    const parts = prev.split("-");
+                    const day = parts[0] || "";
+                    const year = parts[2] || "";
+                    return `${day}-${month}-${year}`;
+                  });
+                }}
+                className="rounded-xl bg-white px-4 py-3 text-black text-center"
+              />
 
-  <input
-    type="number"
-    placeholder="Année"
-    min="1900"
-    max="2100"
-    onChange={(e)=>{
-      const year = e.target.value;
-      setBirthDate(prev=>{
-        const parts = prev.split("-");
-        const day = parts[0] || "";
-        const month = parts[1] || "";
-        return `${day}-${month}-${year}`;
-      });
-    }}
-    className="rounded-xl bg-white px-4 py-3 text-black text-center"
-  />
+              <input
+                type="number"
+                placeholder="Année"
+                min="1900"
+                max="2100"
+                onChange={(e)=>{
+                  const year = e.target.value;
+                  setBirthDate(prev=>{
+                    const parts = prev.split("-");
+                    const day = parts[0] || "";
+                    const month = parts[1] || "";
+                    return `${day}-${month}-${year}`;
+                  });
+                }}
+                className="rounded-xl bg-white px-4 py-3 text-black text-center"
+              />
 
-</div>
+            </div>
 
 
-           <div className="grid grid-cols-2 gap-3">
+            <p className="text-sm text-white/70 text-left">
+              Heure de naissance (optionnel)
+            </p>
 
-  <input
-    type="number"
-    placeholder="Heure"
-    min="0"
-    max="23"
-    onChange={(e)=>{
-      const hour = e.target.value.padStart(2,"0");
-      setBirthTime(prev=>{
-        const parts = prev.split(":");
-        const minute = parts[1] || "";
-        return `${hour}:${minute}`;
-      });
-    }}
-    className="rounded-xl bg-white px-4 py-3 text-black text-center"
-  />
+            <div className="grid grid-cols-2 gap-3">
 
-  <input
-    type="number"
-    placeholder="Minute"
-    min="0"
-    max="59"
-    onChange={(e)=>{
-      const minute = e.target.value.padStart(2,"0");
-      setBirthTime(prev=>{
-        const parts = prev.split(":");
-        const hour = parts[0] || "";
-        return `${hour}:${minute}`;
-      });
-    }}
-    className="rounded-xl bg-white px-4 py-3 text-black text-center"
-  />
+              <input
+                type="number"
+                placeholder="Heure"
+                min="0"
+                max="23"
+                onChange={(e)=>{
+                  const hour = e.target.value.padStart(2,"0");
+                  setBirthTime(prev=>{
+                    const parts = prev.split(":");
+                    const minute = parts[1] || "";
+                    return `${hour}:${minute}`;
+                  });
+                }}
+                className="rounded-xl bg-white px-4 py-3 text-black text-center"
+              />
 
-</div>
+              <input
+                type="number"
+                placeholder="Minute"
+                min="0"
+                max="59"
+                onChange={(e)=>{
+                  const minute = e.target.value.padStart(2,"0");
+                  setBirthTime(prev=>{
+                    const parts = prev.split(":");
+                    const hour = parts[0] || "";
+                    return `${hour}:${minute}`;
+                  });
+                }}
+                className="rounded-xl bg-white px-4 py-3 text-black text-center"
+              />
+
+            </div>
 
 
             <input
@@ -356,7 +360,7 @@ export function ResultClient() {
               value={birthPlace}
               onChange={(e)=>setBirthPlace(e.target.value)}
               required
-              className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+              className="w-full rounded-xl bg-white px-4 py-3 text-black"
             />
 
 
