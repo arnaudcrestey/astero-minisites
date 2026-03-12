@@ -5,6 +5,7 @@ import {
   RadarChart,
   PolarGrid,
   PolarAngleAxis,
+  PolarRadiusAxis,
   ResponsiveContainer
 } from "recharts";
 
@@ -15,24 +16,44 @@ type Props = {
 export default function RadarLove({ score }: Props) {
 
   const data = [
-    { dimension: "Communication", value: score + 5 },
-    { dimension: "Attachement", value: score - 5 },
+    { dimension: "Communication", value: Math.min(score + 5, 100) },
+    { dimension: "Attachement", value: Math.max(score - 5, 0) },
     { dimension: "Stabilité", value: score },
-    { dimension: "Projection", value: score + 2 }
+    { dimension: "Projection", value: Math.min(score + 2, 100) }
   ];
 
   return (
-    <ResponsiveContainer width="100%" height={220}>
-      <RadarChart data={data}>
-        <PolarGrid stroke="#ffffff20" />
-        <PolarAngleAxis dataKey="dimension" tick={{ fill: "#ddd", fontSize: 12 }} />
-        <Radar
-          dataKey="value"
-          stroke="#c084fc"
-          fill="#c084fc"
-          fillOpacity={0.6}
-        />
-      </RadarChart>
-    </ResponsiveContainer>
+    <div className="w-full max-w-[220px] mx-auto">
+
+      <ResponsiveContainer width="100%" height={180}>
+
+        <RadarChart outerRadius={65} data={data}>
+
+          <PolarGrid stroke="#ffffff20" />
+
+          <PolarAngleAxis
+            dataKey="dimension"
+            tick={{ fill: "#ddd", fontSize: 10 }}
+          />
+
+          <PolarRadiusAxis
+            angle={30}
+            domain={[0, 100]}
+            tick={false}
+            axisLine={false}
+          />
+
+          <Radar
+            dataKey="value"
+            stroke="#c084fc"
+            fill="#c084fc"
+            fillOpacity={0.55}
+          />
+
+        </RadarChart>
+
+      </ResponsiveContainer>
+
+    </div>
   );
 }
