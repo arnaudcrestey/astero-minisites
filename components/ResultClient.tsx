@@ -258,42 +258,95 @@ export function ResultClient() {
 
             <div className="grid grid-cols-3 gap-3">
 
-              <input
-                type="number"
-                placeholder="Jour"
-                className="rounded-xl bg-white px-4 py-3 text-black text-center"
-              />
+  <input
+    type="number"
+    placeholder="Jour"
+    min="1"
+    max="31"
+    onChange={(e)=>{
+      const day = e.target.value.padStart(2,"0");
+      setBirthDate(prev=>{
+        const parts = prev.split("-");
+        const month = parts[1] || "";
+        const year = parts[2] || "";
+        return `${day}-${month}-${year}`;
+      });
+    }}
+    className="rounded-xl bg-white px-4 py-3 text-black text-center"
+  />
 
-              <input
-                type="number"
-                placeholder="Mois"
-                className="rounded-xl bg-white px-4 py-3 text-black text-center"
-              />
+  <input
+    type="number"
+    placeholder="Mois"
+    min="1"
+    max="12"
+    onChange={(e)=>{
+      const month = e.target.value.padStart(2,"0");
+      setBirthDate(prev=>{
+        const parts = prev.split("-");
+        const day = parts[0] || "";
+        const year = parts[2] || "";
+        return `${day}-${month}-${year}`;
+      });
+    }}
+    className="rounded-xl bg-white px-4 py-3 text-black text-center"
+  />
 
-              <input
-                type="number"
-                placeholder="Année"
-                className="rounded-xl bg-white px-4 py-3 text-black text-center"
-              />
+  <input
+    type="number"
+    placeholder="Année"
+    min="1900"
+    max="2100"
+    onChange={(e)=>{
+      const year = e.target.value;
+      setBirthDate(prev=>{
+        const parts = prev.split("-");
+        const day = parts[0] || "";
+        const month = parts[1] || "";
+        return `${day}-${month}-${year}`;
+      });
+    }}
+    className="rounded-xl bg-white px-4 py-3 text-black text-center"
+  />
 
-            </div>
+</div>
 
 
-            <div className="grid grid-cols-2 gap-3">
+           <div className="grid grid-cols-2 gap-3">
 
-              <input
-                type="number"
-                placeholder="Heure"
-                className="rounded-xl bg-white px-4 py-3 text-black text-center"
-              />
+  <input
+    type="number"
+    placeholder="Heure"
+    min="0"
+    max="23"
+    onChange={(e)=>{
+      const hour = e.target.value.padStart(2,"0");
+      setBirthTime(prev=>{
+        const parts = prev.split(":");
+        const minute = parts[1] || "";
+        return `${hour}:${minute}`;
+      });
+    }}
+    className="rounded-xl bg-white px-4 py-3 text-black text-center"
+  />
 
-              <input
-                type="number"
-                placeholder="Minute"
-                className="rounded-xl bg-white px-4 py-3 text-black text-center"
-              />
+  <input
+    type="number"
+    placeholder="Minute"
+    min="0"
+    max="59"
+    onChange={(e)=>{
+      const minute = e.target.value.padStart(2,"0");
+      setBirthTime(prev=>{
+        const parts = prev.split(":");
+        const hour = parts[0] || "";
+        return `${hour}:${minute}`;
+      });
+    }}
+    className="rounded-xl bg-white px-4 py-3 text-black text-center"
+  />
 
-            </div>
+</div>
 
 
             <input
