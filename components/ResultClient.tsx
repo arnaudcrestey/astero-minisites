@@ -74,7 +74,8 @@ export function ResultClient() {
       email,
       birthDate,
       birthTime,
-      birthPlace
+      birthPlace,
+      score
     };
 
     try {
