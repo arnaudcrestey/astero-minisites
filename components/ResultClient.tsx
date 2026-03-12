@@ -229,8 +229,8 @@ export function ResultClient() {
           </p>
 
           <p className="mt-6 text-white/70 max-w-2xl mx-auto">
-            Recevez gratuitement une première lecture personnalisée :
-          </p>
+  Recevez <span className="font-semibold text-neon">gratuitement</span> une première lecture personnalisée :
+</p>
 
 
           <form
