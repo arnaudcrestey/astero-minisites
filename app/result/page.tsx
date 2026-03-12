@@ -1,4 +1,5 @@
 import Link from "next/link";
+import RadarLove from "@/components/RadarLove";
 
 export default function ResultPage() {
 
@@ -9,6 +10,8 @@ export default function ResultPage() {
 
       <section className="glass-card relative z-10 w-full max-w-3xl rounded-3xl px-6 py-10 text-center md:px-14">
 
+        {/* Header */}
+
         <p className="text-xs tracking-widest text-slate-300/70">
           RÉSULTAT LOVE SCAN
         </p>
@@ -17,11 +20,17 @@ export default function ResultPage() {
           Score relationnel : {score} %
         </h1>
 
-        {/* radar block */}
+        {/* Radar + Diagnostic */}
+
         <div className="mt-8 grid gap-6 md:grid-cols-2">
 
+          {/* Diagnostic */}
+
           <div className="rounded-2xl bg-white/5 p-6 text-left">
-            <h3 className="font-semibold mb-2">Diagnostic principal</h3>
+
+            <h3 className="font-semibold mb-2">
+              Diagnostic principal
+            </h3>
 
             <p className="text-sm text-slate-200/80">
               Votre score indique une bonne capacité à construire
@@ -37,21 +46,23 @@ export default function ResultPage() {
 
           </div>
 
+          {/* Radar */}
+
           <div className="rounded-2xl bg-white/5 p-6 flex items-center justify-center">
-            <p className="text-slate-300/70 text-sm">
-              Radar relationnel
-              <br/>
-              (communication / attachement / stabilité / projection)
-            </p>
+
+            <RadarLove score={score} />
+
           </div>
 
         </div>
 
-        {/* analysis block */}
+        {/* Analyse personnalisée */}
 
         <div className="mt-8 rounded-2xl bg-white/5 p-6 text-left">
 
-          <h3 className="font-semibold mb-2">Analyse personnalisée</h3>
+          <h3 className="font-semibold mb-2">
+            Analyse personnalisée
+          </h3>
 
           <p className="text-sm text-slate-200/80">
             Votre score relationnel révèle des forces dans votre capacité
@@ -96,15 +107,17 @@ export default function ResultPage() {
 
         </div>
 
-        {/* restart */}
+        {/* Restart */}
 
         <div className="mt-8">
+
           <Link
             href="/"
             className="rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-3 font-semibold"
           >
             Refaire le test
           </Link>
+
         </div>
 
       </section>
