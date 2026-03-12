@@ -58,9 +58,6 @@ export default function ResultPage() {
               <RadarLove score={score} />
             </div>
 
-            <div className="mt-4 text-xs text-slate-300/70 text-center">
-              Communication • Attachement • Stabilité • Vision
-            </div>
 
           </div>
 
