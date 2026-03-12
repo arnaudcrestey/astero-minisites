@@ -1,11 +1,56 @@
+"use client";
+
 import Link from "next/link";
 import RadarLove from "@/components/RadarLove";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function ResultPage() {
 
-  const score = 68;
+  const params = useSearchParams();
+  const score = Number(params.get("score")) || 0;
+
+  const [analysis, setAnalysis] = useState("Analyse en cours...");
+
+  useEffect(() => {
+
+    async function generateAnalysis() {
+
+      try {
+
+        const res = await fetch("/api/analyse", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            score,
+            profile: "relationnel",
+            answers: []
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.analysis) {
+          setAnalysis(data.analysis);
+        }
+
+      } catch (error) {
+
+        console.error(error);
+        setAnalysis("Impossible de générer l'analyse pour le moment.");
+
+      }
+
+    }
+
+    generateAnalysis();
+
+  }, [score]);
 
   return (
+
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10">
 
       <section className="glass-card relative z-10 w-full max-w-3xl rounded-3xl px-6 py-10 text-center md:px-14">
@@ -33,9 +78,10 @@ export default function ResultPage() {
             </h3>
 
             <p className="text-sm text-slate-200/80">
-              Votre score indique une bonne capacité à construire
-              des relations équilibrées, avec encore quelques
-              ajustements possibles dans la communication émotionnelle.
+              Votre score indique une capacité à créer du lien et à
+              construire des relations équilibrées, avec encore
+              quelques ajustements possibles dans la communication
+              émotionnelle.
             </p>
 
             <ul className="mt-4 text-sm space-y-1 text-slate-200/80">
@@ -58,7 +104,6 @@ export default function ResultPage() {
               <RadarLove score={score} />
             </div>
 
-
           </div>
 
         </div>
@@ -71,16 +116,8 @@ export default function ResultPage() {
             Analyse personnalisée
           </h3>
 
-          <p className="text-sm text-slate-200/80">
-            Votre score relationnel révèle des forces dans votre capacité
-            à créer du lien, mais aussi certaines dynamiques émotionnelles
-            qui peuvent influencer vos choix amoureux.
-          </p>
-
-          <p className="text-sm text-slate-200/80 mt-3">
-            Dans certaines situations, vous pouvez hésiter entre
-            engagement et protection personnelle, ce qui peut créer
-            des schémas relationnels répétitifs.
+          <p className="text-sm text-slate-200/80 whitespace-pre-line">
+            {analysis}
           </p>
 
         </div>
@@ -94,15 +131,15 @@ export default function ResultPage() {
           </h3>
 
           <p className="mt-3 text-sm text-slate-200/80">
-            Certaines dynamiques relationnelles peuvent être liées
-            à votre personnalité profonde et à votre trajectoire
+            Certaines dynamiques relationnelles peuvent être liées à
+            votre personnalité profonde et à votre trajectoire
             émotionnelle.
           </p>
 
           <p className="mt-2 text-sm text-slate-200/80">
-            Le Cabinet Astrae propose une analyse approfondie
-            pour explorer ces mécanismes grâce à l’étude du thème
-            astral et de votre histoire personnelle.
+            Le Cabinet Astrae propose une analyse approfondie pour
+            explorer ces mécanismes grâce à l’étude du thème astral
+            et de votre histoire personnelle.
           </p>
 
           <Link
@@ -114,20 +151,7 @@ export default function ResultPage() {
 
         </div>
 
-        {/* Restart */}
-
-        <div className="mt-8">
-
-          <Link
-            href="/"
-            className="rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-3 font-semibold"
-          >
-            Refaire le test
-          </Link>
-
-        </div>
-
-      </section>
+              </section>
 
     </main>
   );
