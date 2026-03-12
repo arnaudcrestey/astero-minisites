@@ -259,58 +259,64 @@ export function ResultClient() {
 
             <div className="grid grid-cols-3 gap-3">
 
-              <input
-                type="number"
-                placeholder="Jour"
-                min="1"
-                max="31"
-                onChange={(e)=>{
-                  const day = e.target.value.padStart(2,"0");
-                  setBirthDate(prev=>{
-                    const parts = prev.split("-");
-                    const month = parts[1] || "";
-                    const year = parts[2] || "";
-                    return `${day}-${month}-${year}`;
-                  });
-                }}
-                className="rounded-xl bg-white px-4 py-3 text-black text-center"
-              />
+  <input
+    type="text"
+    inputMode="numeric"
+    maxLength={2}
+    placeholder="Jour"
+    className="rounded-xl bg-white px-4 py-3 text-black text-center"
+    onChange={(e)=>{
+      const value = e.target.value.replace(/\D/g,"");
+      if(value.length===2){
+        (e.target.nextElementSibling as HTMLElement)?.focus();
+      }
+      setBirthDate(prev=>{
+        const parts = prev.split("-");
+        const month = parts[1] || "";
+        const year = parts[2] || "";
+        return `${value}-${month}-${year}`;
+      });
+    }}
+  />
 
-              <input
-                type="number"
-                placeholder="Mois"
-                min="1"
-                max="12"
-                onChange={(e)=>{
-                  const month = e.target.value.padStart(2,"0");
-                  setBirthDate(prev=>{
-                    const parts = prev.split("-");
-                    const day = parts[0] || "";
-                    const year = parts[2] || "";
-                    return `${day}-${month}-${year}`;
-                  });
-                }}
-                className="rounded-xl bg-white px-4 py-3 text-black text-center"
-              />
+  <input
+    type="text"
+    inputMode="numeric"
+    maxLength={2}
+    placeholder="Mois"
+    className="rounded-xl bg-white px-4 py-3 text-black text-center"
+    onChange={(e)=>{
+      const value = e.target.value.replace(/\D/g,"");
+      if(value.length===2){
+        (e.target.nextElementSibling as HTMLElement)?.focus();
+      }
+      setBirthDate(prev=>{
+        const parts = prev.split("-");
+        const day = parts[0] || "";
+        const year = parts[2] || "";
+        return `${day}-${value}-${year}`;
+      });
+    }}
+  />
 
-              <input
-                type="number"
-                placeholder="Année"
-                min="1900"
-                max="2100"
-                onChange={(e)=>{
-                  const year = e.target.value;
-                  setBirthDate(prev=>{
-                    const parts = prev.split("-");
-                    const day = parts[0] || "";
-                    const month = parts[1] || "";
-                    return `${day}-${month}-${year}`;
-                  });
-                }}
-                className="rounded-xl bg-white px-4 py-3 text-black text-center"
-              />
+  <input
+    type="text"
+    inputMode="numeric"
+    maxLength={4}
+    placeholder="Année"
+    className="rounded-xl bg-white px-4 py-3 text-black text-center"
+    onChange={(e)=>{
+      const value = e.target.value.replace(/\D/g,"");
+      setBirthDate(prev=>{
+        const parts = prev.split("-");
+        const day = parts[0] || "";
+        const month = parts[1] || "";
+        return `${day}-${month}-${value}`;
+      });
+    }}
+  />
 
-            </div>
+</div>
 
 
             <p className="text-sm text-white/70 text-left">
