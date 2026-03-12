@@ -228,8 +228,8 @@ export function ResultClient() {
             vos relations.
           </p>
 
-          <p className="mt-6 text-white/70 max-w-2xl mx-auto">
-  Recevez <span className="font-semibold text-neon">gratuitement</span> une première lecture personnalisée :
+          <p className="mt-6 text-lg text-white text-center font-medium">
+  🎁 Recevez <span className="text-cyan-300 font-bold">gratuitement</span> votre première lecture personnalisée
 </p>
 
 
