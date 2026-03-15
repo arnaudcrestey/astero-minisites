@@ -12,6 +12,11 @@ export default function HomePage() {
       {/* Card */}
       <section className="glass-card relative z-10 w-full max-w-3xl rounded-3xl px-6 py-10 text-center md:px-14 md:py-14">
 
+        {/* Badge */}
+        <p className="mb-4 inline-flex rounded-full border border-pink-300/40 px-3 py-1 text-xs uppercase tracking-[0.2em] text-pink-300">
+          Diagnostic relationnel gratuit
+        </p>
+
         {/* Logo */}
         <span className="mb-6 inline-block animate-float text-5xl">💖</span>
 
