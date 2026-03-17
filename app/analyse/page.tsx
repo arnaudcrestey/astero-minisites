@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function AnalysePage() {
+export default function AnalyseClient() {
 
   const router = useRouter();
   const params = useSearchParams();
@@ -12,12 +12,10 @@ export default function AnalysePage() {
 
   useEffect(() => {
 
-    // Animation progressive des étapes
     const step1 = setTimeout(() => setStep(1), 500);
     const step2 = setTimeout(() => setStep(2), 1200);
     const step3 = setTimeout(() => setStep(3), 1900);
 
-    // Redirection avec les données
     const timer = setTimeout(() => {
       router.push(`/result?${params.toString()}`);
     }, 2600);
