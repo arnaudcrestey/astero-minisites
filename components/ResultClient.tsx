@@ -179,9 +179,9 @@ export function ResultClient() {
             Comprendre réellement votre fonctionnement amoureux
           </h2>
 
-          <p className="text-white/70 text-sm mb-4">
-            Certaines dynamiques relationnelles peuvent être liées à des facteurs plus profonds que les seules situations du quotidien.
-          </p>
+          <p className="text-white/60 text-xs mb-3">
+  Au Cabinet Astrae, nous utilisons l’étude du thème astral pour comprendre les dynamiques profondes qui influencent votre vie amoureuse.
+</p>
 
           <p className="text-white/50 text-xs mb-2">
             Sans engagement • Résultat immédiat
