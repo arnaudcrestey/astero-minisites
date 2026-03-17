@@ -33,7 +33,8 @@ export function Quiz({ type, questions }: QuizProps) {
     score: String(score + answerScore),
     answers: nextScores.join(',')
   });
-  router.push(`/result?${search.toString()}`);
+
+  router.push(`/analyse?${search.toString()}`);
   return;
 }
 
