@@ -37,7 +37,6 @@ export function ResultClient() {
     setCurrentUrl(window.location.href);
   }, []);
 
-  // 🔥 Analyse IA
   useEffect(() => {
     async function generateAnalysis() {
       try {
@@ -61,7 +60,6 @@ export function ResultClient() {
     generateAnalysis();
   }, [score]);
 
-  // 🔥 Envoi lead
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -106,7 +104,6 @@ export function ResultClient() {
     setSending(false);
   }
 
-  // ✅ SUCCESS
   if (submitted) {
     return (
       <main className="flex min-h-screen items-center justify-center px-6 text-center">
@@ -175,18 +172,26 @@ export function ResultClient() {
           )}
         </div>
 
-        {/* FORM */}
-        <section className="mt-12 text-center">
+        {/* 🔥 FORMULAIRE PREMIUM */}
+        <section className="mt-16 rounded-2xl bg-white/5 p-8 text-center max-w-2xl mx-auto">
 
-          <p className="text-xs text-white/50 mb-2">
+          <h2 className="text-2xl font-semibold mb-3">
+            Comprendre réellement votre fonctionnement amoureux
+          </h2>
+
+          <p className="text-white/70 text-sm mb-4">
+            Certaines dynamiques relationnelles peuvent être liées à des facteurs plus profonds que les seules situations du quotidien.
+          </p>
+
+          <p className="text-white/50 text-xs mb-2">
             Sans engagement • Résultat immédiat
           </p>
 
-          <p className="text-white/80 mb-4">
+          <p className="text-white/80 mb-6">
             🎁 Recevez <span className="text-cyan-300 font-semibold">gratuitement</span> votre lecture amoureuse personnalisée
           </p>
 
-          <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
+          <form onSubmit={handleSubmit} className="space-y-4">
 
             <input
               type="text"
@@ -206,7 +211,9 @@ export function ResultClient() {
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black"
             />
 
-            <div className="text-left text-sm text-white/70">Date de naissance</div>
+            <div className="text-left text-sm text-white/70">
+              Date de naissance
+            </div>
 
             <div className="grid grid-cols-3 gap-3">
               <input placeholder="Jour" maxLength={2}
@@ -220,7 +227,9 @@ export function ResultClient() {
                 className="rounded-xl bg-white/90 px-3 py-3 text-center text-black"/>
             </div>
 
-            <div className="text-left text-sm text-white/70">Heure de naissance</div>
+            <div className="text-left text-sm text-white/70">
+              Heure de naissance
+            </div>
 
             <div className="grid grid-cols-2 gap-3">
               <input placeholder="Heure" maxLength={2}
