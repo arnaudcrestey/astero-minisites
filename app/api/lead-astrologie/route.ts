@@ -31,10 +31,10 @@ export async function POST(req: Request) {
 
       to: "arnaud.crestey14@gmail.com",
 
-      subject: "🚀 Nouveau lead LOVE SCAN",
+      subject: " Nouveau lead LOVE SCAN",
 
       html: `
-        <h2>🚀 Nouveau lead LOVE SCAN</h2>
+        <h2> Nouveau lead LOVE SCAN</h2>
         <p>Un utilisateur vient de compléter le diagnostic.</p>
 
         <hr/>
