@@ -179,8 +179,8 @@ export function ResultClient() {
             Comprendre réellement votre fonctionnement amoureux
           </h2>
 
-          <p className="text-white/60 text-xs mb-3">
-  Au Cabinet Astrae, nous utilisons l’étude du thème astral pour comprendre les dynamiques profondes qui influencent votre vie amoureuse.
+         <p className="text-white/70 text-sm mb-3">
+  Au <span className="font-semibold text-white">Cabinet Astrae</span>, nous utilisons l’étude du thème astral pour comprendre les dynamiques profondes qui influencent votre vie amoureuse.
 </p>
 
           <p className="text-white/50 text-xs mb-2">
