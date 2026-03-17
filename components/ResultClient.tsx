@@ -1,13 +1,23 @@
 "use client";
 
 import RadarLove from "@/components/RadarLove";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export function ResultClient() {
 
   const params = useSearchParams();
+  const router = useRouter();
+
   const score = Number(params.get("score")) || 0;
+
+  // 🔥 Profil auto (important pour ton mail)
+  const profile =
+    score >= 70
+      ? "Relation équilibrée"
+      : score >= 40
+      ? "Relation en construction"
+      : "Relation fragile";
 
   const [analysis, setAnalysis] = useState("Analyse en cours...");
   const [loading, setLoading] = useState(true);
@@ -21,20 +31,14 @@ export function ResultClient() {
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  // 🔥 Génération analyse IA
   useEffect(() => {
-
     async function generateAnalysis() {
-
       try {
-
         const res = await fetch("/api/analyse", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            score
-          })
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ score })
         });
 
         const data = await res.json();
@@ -44,103 +48,90 @@ export function ResultClient() {
         }
 
       } catch {
-
         setAnalysis("Impossible de générer l'analyse pour le moment.");
-
       } finally {
-
         setLoading(false);
-
       }
-
     }
 
     generateAnalysis();
-
   }, [score]);
 
-
+  // 🔥 ENVOI LEAD
   async function handleSubmit(e: React.FormEvent) {
-
     e.preventDefault();
 
     if (sending) return;
 
+    if (!email || !firstName) {
+      alert("Merci de remplir les champs obligatoires");
+      return;
+    }
+
     setSending(true);
 
-    const data = {
-      firstName,
-      email,
-      birthDate,
-      birthTime,
-      birthPlace,
-      score
-    };
-
     try {
-
-      const res = await fetch("/api/lead-astrologie", {
+      const res = await fetch("/api/lead", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          firstName,
+          email,
+          birthDate,
+          birthTime,
+          birthPlace,
+          score,
+          profile
+        })
       });
 
       const result = await res.json();
 
       if (result.success) {
         setSubmitted(true);
+
+        // 🔥 Redirection Astrae (optionnel)
+        setTimeout(() => {
+          router.push("/astrae");
+        }, 2500);
+
       } else {
         alert("Une erreur est survenue.");
       }
 
     } catch (error) {
-
       console.error(error);
-      alert("Erreur de connexion au serveur.");
-
+      alert("Erreur serveur.");
     }
 
     setSending(false);
-
   }
 
-
+  // ✅ Écran succès
   if (submitted) {
-
     return (
-
       <main className="flex min-h-screen items-center justify-center px-6 text-center">
-
         <div className="glass max-w-xl rounded-2xl p-10">
-
           <h2 className="text-3xl font-semibold mb-4">
             ✓ Demande envoyée
           </h2>
-
           <p className="text-white/80">
-            Votre première lecture personnalisée vous sera envoyée
-            par email dans quelques instants.
+            Votre analyse arrive dans quelques instants ✨
           </p>
-
           <p className="mt-6 text-white/60 text-sm">
-            Pensez à vérifier vos spams si vous ne voyez rien apparaître.
+            Pensez à vérifier vos spams.
           </p>
-
         </div>
-
       </main>
-
     );
-
   }
 
   return (
+    <main className="relative flex min-h-screen items-center justify-center px-4 py-10">
 
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10">
-
-      <section className="glass-card relative z-10 w-full max-w-5xl rounded-3xl px-6 py-10 text-center md:px-14">
+      <section className="glass-card w-full max-w-5xl rounded-3xl px-6 py-10 text-center md:px-14">
 
         <p className="text-xs tracking-widest text-slate-300/70">
           RÉSULTAT LOVE SCAN
@@ -150,47 +141,34 @@ export function ResultClient() {
           Score relationnel : {score} %
         </h1>
 
-
         <div className="mt-8 grid gap-6 md:grid-cols-2">
 
           <div className="rounded-2xl bg-white/5 p-6 text-left">
-
             <h3 className="font-semibold mb-2">
               Diagnostic principal
             </h3>
-
             <p className="text-sm text-slate-200/80">
-              Votre score indique une capacité à créer du lien et à
-              construire des relations équilibrées, avec encore
-              quelques ajustements possibles dans la communication
-              émotionnelle.
+              Votre score reflète votre manière d’aimer et d’entrer en relation.
+              Il met en lumière vos forces et vos zones d’évolution émotionnelle.
             </p>
 
             <ul className="mt-4 text-sm space-y-1 text-slate-200/80">
-              <li>• Bonne conscience relationnelle</li>
+              <li>• Conscience relationnelle</li>
               <li>• Capacité à créer du lien</li>
               <li>• Potentiel d’évolution émotionnelle</li>
             </ul>
-
           </div>
 
           <div className="rounded-2xl bg-white/5 p-6">
-
-            <h3 className="font-semibold mb-4 text-sm text-center">
+            <h3 className="font-semibold mb-4 text-sm">
               Profil relationnel
             </h3>
-
-            <div className="flex items-center justify-center">
-              <RadarLove score={score} />
-            </div>
-
+            <RadarLove score={score} />
           </div>
 
         </div>
 
-
         <div className="mt-8 rounded-2xl bg-white/5 p-6 text-left">
-
           <h3 className="font-semibold mb-2">
             Analyse personnalisée
           </h3>
@@ -204,36 +182,20 @@ export function ResultClient() {
               {analysis}
             </p>
           )}
-
         </div>
 
+        {/* 🔥 FORMULAIRE */}
+        <section className="mt-12 p-8 text-center">
 
-        <section className="mt-12 rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-white/0 p-8 md:p-10 text-center shadow-xl">
-
-          <h2 className="text-2xl md:text-3xl font-semibold mb-4">
-            Comprendre réellement votre dynamique amoureuse
+          <h2 className="text-2xl font-semibold mb-4">
+            Recevez votre lecture personnalisée
           </h2>
 
-          <p className="text-white/80 max-w-2xl mx-auto leading-relaxed">
-            Certaines dynamiques relationnelles peuvent être liées à des
-            facteurs plus profonds que la simple expérience sentimentale.
+          <p className="text-white/80 mb-6">
+            Analyse approfondie basée sur votre profil et votre thème.
           </p>
 
-          <p className="mt-4 text-white/80 max-w-2xl mx-auto leading-relaxed">
-            Au <strong>Cabinet Astrae</strong>, l’étude du thème astral est utilisée
-            pour mieux comprendre les mécanismes émotionnels qui influencent
-            vos relations.
-          </p>
-
-          <p className="mt-6 text-lg text-white font-medium">
-            🎁 Recevez <span className="text-cyan-300 font-bold">gratuitement</span> votre première lecture personnalisée
-          </p>
-
-
-          <form
-            onSubmit={handleSubmit}
-            className="mt-8 flex flex-col gap-4 w-full max-w-md mx-auto"
-          >
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md mx-auto">
 
             <input
               type="text"
@@ -241,7 +203,7 @@ export function ResultClient() {
               value={firstName}
               onChange={(e)=>setFirstName(e.target.value)}
               required
-              className="w-full rounded-xl bg-white px-4 py-3 text-black"
+              className="rounded-xl px-4 py-3 text-black"
             />
 
             <input
@@ -250,146 +212,45 @@ export function ResultClient() {
               value={email}
               onChange={(e)=>setEmail(e.target.value)}
               required
-              className="w-full rounded-xl bg-white px-4 py-3 text-black"
+              className="rounded-xl px-4 py-3 text-black"
             />
 
-            <p className="text-sm text-white/70 text-left">
-              Date de naissance
-            </p>
+            <input
+              type="text"
+              placeholder="Date de naissance (JJ/MM/AAAA)"
+              onChange={(e)=>setBirthDate(e.target.value)}
+              className="rounded-xl px-4 py-3 text-black"
+            />
 
-            <div className="grid grid-cols-3 gap-3">
-
-  <input
-    type="text"
-    inputMode="numeric"
-    maxLength={2}
-    placeholder="Jour"
-    className="rounded-xl bg-white px-4 py-3 text-black text-center"
-    onChange={(e)=>{
-      const value = e.target.value.replace(/\D/g,"");
-      if(value.length===2){
-        (e.target.nextElementSibling as HTMLElement)?.focus();
-      }
-      setBirthDate(prev=>{
-        const parts = prev.split("-");
-        const month = parts[1] || "";
-        const year = parts[2] || "";
-        return `${value}-${month}-${year}`;
-      });
-    }}
-  />
-
-  <input
-    type="text"
-    inputMode="numeric"
-    maxLength={2}
-    placeholder="Mois"
-    className="rounded-xl bg-white px-4 py-3 text-black text-center"
-    onChange={(e)=>{
-      const value = e.target.value.replace(/\D/g,"");
-      if(value.length===2){
-        (e.target.nextElementSibling as HTMLElement)?.focus();
-      }
-      setBirthDate(prev=>{
-        const parts = prev.split("-");
-        const day = parts[0] || "";
-        const year = parts[2] || "";
-        return `${day}-${value}-${year}`;
-      });
-    }}
-  />
-
-  <input
-    type="text"
-    inputMode="numeric"
-    maxLength={4}
-    placeholder="Année"
-    className="rounded-xl bg-white px-4 py-3 text-black text-center"
-    onChange={(e)=>{
-      const value = e.target.value.replace(/\D/g,"");
-      setBirthDate(prev=>{
-        const parts = prev.split("-");
-        const day = parts[0] || "";
-        const month = parts[1] || "";
-        return `${day}-${month}-${value}`;
-      });
-    }}
-  />
-
-</div>
-
-
-            <p className="text-sm text-white/70 text-left">
-              Heure de naissance 
-            </p>
-
-            <div className="grid grid-cols-2 gap-3">
-
-              <input
-                type="number"
-                placeholder="Heure"
-                min="0"
-                max="23"
-                onChange={(e)=>{
-                  const hour = e.target.value.padStart(2,"0");
-                  setBirthTime(prev=>{
-                    const parts = prev.split(":");
-                    const minute = parts[1] || "";
-                    return `${hour}:${minute}`;
-                  });
-                }}
-                className="rounded-xl bg-white px-4 py-3 text-black text-center"
-              />
-
-              <input
-                type="number"
-                placeholder="Minute"
-                min="0"
-                max="59"
-                onChange={(e)=>{
-                  const minute = e.target.value.padStart(2,"0");
-                  setBirthTime(prev=>{
-                    const parts = prev.split(":");
-                    const hour = parts[0] || "";
-                    return `${hour}:${minute}`;
-                  });
-                }}
-                className="rounded-xl bg-white px-4 py-3 text-black text-center"
-              />
-
-            </div>
-
+            <input
+              type="text"
+              placeholder="Heure de naissance"
+              onChange={(e)=>setBirthTime(e.target.value)}
+              className="rounded-xl px-4 py-3 text-black"
+            />
 
             <input
               type="text"
               placeholder="Ville de naissance"
               value={birthPlace}
               onChange={(e)=>setBirthPlace(e.target.value)}
-              required
-              className="w-full rounded-xl bg-white px-4 py-3 text-black"
+              className="rounded-xl px-4 py-3 text-black"
             />
-
 
             <button
               type="submit"
               disabled={sending}
-              className="mt-2 w-full rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 py-4 text-lg font-semibold text-white"
+              className="mt-2 rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 py-4 text-lg font-semibold text-white"
             >
-              Recevoir ma première analyse
+              {sending ? "Envoi en cours..." : "Recevoir ma première analyse"}
             </button>
 
           </form>
-
-          <p className="mt-6 text-sm text-white/60">
-            Vos informations restent confidentielles et ne seront jamais partagées.
-          </p>
 
         </section>
 
       </section>
 
     </main>
-
   );
-
 }
