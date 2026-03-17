@@ -28,14 +28,14 @@ export function Quiz({ type, questions }: QuizProps) {
     setSelectedScores(nextScores);
 
     if (isLast) {
-      const search = new URLSearchParams({
-        type,
-        score: String(score + answerScore),
-        answers: nextScores.join(',')
-      });
-      router.push(`/result?${search.toString()}`);
-      return;
-    }
+  const search = new URLSearchParams({
+    type,
+    score: String(score + answerScore),
+    answers: nextScores.join(',')
+  });
+  router.push(`/result?${search.toString()}`);
+  return;
+}
 
     setTimeout(() => {
       setCurrentIndex((prev) => prev + 1);
