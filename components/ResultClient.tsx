@@ -212,20 +212,56 @@ export function ResultClient() {
             />
 
             <div className="text-left text-sm text-white/70">
-              Date de naissance
-            </div>
+  Date de naissance
+</div>
 
-            <div className="grid grid-cols-3 gap-3">
-              <input placeholder="Jour" maxLength={2}
-                onChange={(e)=>setBirthDate(prev => `${e.target.value}/${prev.split("/")[1]||""}/${prev.split("/")[2]||""}`)}
-                className="rounded-xl bg-white/90 px-3 py-3 text-center text-black"/>
-              <input placeholder="Mois" maxLength={2}
-                onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${e.target.value}/${prev.split("/")[2]||""}`)}
-                className="rounded-xl bg-white/90 px-3 py-3 text-center text-black"/>
-              <input placeholder="Année" maxLength={4}
-                onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${prev.split("/")[1]||""}/${e.target.value}`)}
-                className="rounded-xl bg-white/90 px-3 py-3 text-center text-black"/>
-            </div>
+<div className="grid grid-cols-3 gap-3">
+
+  {/* MOBILE */}
+  <input
+    placeholder="JJ"
+    maxLength={2}
+    onChange={(e)=>setBirthDate(prev => `${e.target.value}/${prev.split("/")[1]||""}/${prev.split("/")[2]||""}`)}
+    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black block md:hidden"
+  />
+
+  <input
+    placeholder="MM"
+    maxLength={2}
+    onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${e.target.value}/${prev.split("/")[2]||""}`)}
+    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black block md:hidden"
+  />
+
+  <input
+    placeholder="AA"
+    maxLength={4}
+    onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${prev.split("/")[1]||""}/${e.target.value}`)}
+    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black block md:hidden"
+  />
+
+  {/* DESKTOP */}
+  <input
+    placeholder="Jour"
+    maxLength={2}
+    onChange={(e)=>setBirthDate(prev => `${e.target.value}/${prev.split("/")[1]||""}/${prev.split("/")[2]||""}`)}
+    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black hidden md:block"
+  />
+
+  <input
+    placeholder="Mois"
+    maxLength={2}
+    onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${e.target.value}/${prev.split("/")[2]||""}`)}
+    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black hidden md:block"
+  />
+
+  <input
+    placeholder="Année"
+    maxLength={4}
+    onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${prev.split("/")[1]||""}/${e.target.value}`)}
+    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black hidden md:block"
+  />
+
+</div>
 
             <div className="text-left text-sm text-white/70">
               Heure de naissance
