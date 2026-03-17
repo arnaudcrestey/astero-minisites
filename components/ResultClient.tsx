@@ -33,6 +33,16 @@ export function ResultClient() {
 
   const [currentUrl, setCurrentUrl] = useState("");
 
+  const shareText = `Je viens de faire un test sur ma façon d’aimer ❤️
+
+Résultat : ${score}%
+
+Franchement, je ne m’attendais pas à ça…
+
+Tu devrais essayer 👇`;
+
+  const shareUrl = currentUrl;
+
   useEffect(() => {
     setCurrentUrl(window.location.href);
   }, []);
@@ -134,9 +144,7 @@ export function ResultClient() {
         <div className="mt-8 grid gap-6 md:grid-cols-2">
 
           <div className="rounded-2xl bg-white/5 p-6 text-left">
-            <h3 className="font-semibold mb-2">
-              Diagnostic principal
-            </h3>
+            <h3 className="font-semibold mb-2">Diagnostic principal</h3>
             <p className="text-sm text-slate-200/80">
               Votre score reflète votre manière d’aimer et d’entrer en relation.
             </p>
@@ -149,9 +157,7 @@ export function ResultClient() {
           </div>
 
           <div className="rounded-2xl bg-white/5 p-6">
-            <h3 className="font-semibold mb-4 text-sm">
-              Profil relationnel
-            </h3>
+            <h3 className="font-semibold mb-4 text-sm">Profil relationnel</h3>
             <RadarLove score={score} />
           </div>
 
@@ -159,9 +165,7 @@ export function ResultClient() {
 
         {/* ANALYSE */}
         <div className="mt-8 rounded-2xl bg-white/5 p-6 text-left">
-          <h3 className="font-semibold mb-2">
-            Analyse personnalisée
-          </h3>
+          <h3 className="font-semibold mb-2">Analyse personnalisée</h3>
 
           {loading ? (
             <p className="text-sm text-slate-200/80">Analyse en cours...</p>
@@ -172,16 +176,16 @@ export function ResultClient() {
           )}
         </div>
 
-        {/* 🔥 FORMULAIRE PREMIUM */}
+        {/* FORMULAIRE */}
         <section className="mt-16 rounded-2xl bg-white/5 p-8 text-center max-w-2xl mx-auto">
 
           <h2 className="text-2xl font-semibold mb-3">
             Comprendre réellement votre fonctionnement amoureux
           </h2>
 
-         <p className="text-white/70 text-sm mb-3">
-  Au <span className="font-semibold text-white">Cabinet Astrae</span>, nous utilisons l’étude du thème astral pour comprendre les dynamiques profondes qui influencent votre vie amoureuse.
-</p>
+          <p className="text-white/70 text-sm mb-3">
+            Au <span className="font-semibold text-cyan-300">Cabinet Astrae</span>, nous utilisons l’étude du thème astral pour comprendre les dynamiques profondes qui influencent votre vie amoureuse.
+          </p>
 
           <p className="text-white/50 text-xs mb-2">
             Sans engagement • Résultat immédiat
@@ -212,77 +216,36 @@ export function ResultClient() {
             />
 
             <div className="text-left text-sm text-white/70">
-  Date de naissance
-</div>
-
-<div className="grid grid-cols-3 gap-3">
-
-  {/* MOBILE */}
-  <input
-    placeholder="JJ"
-    maxLength={2}
-    onChange={(e)=>setBirthDate(prev => `${e.target.value}/${prev.split("/")[1]||""}/${prev.split("/")[2]||""}`)}
-    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black block md:hidden"
-  />
-
-  <input
-    placeholder="MM"
-    maxLength={2}
-    onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${e.target.value}/${prev.split("/")[2]||""}`)}
-    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black block md:hidden"
-  />
-
-  <input
-    placeholder="AA"
-    maxLength={4}
-    onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${prev.split("/")[1]||""}/${e.target.value}`)}
-    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black block md:hidden"
-  />
-
-  {/* DESKTOP */}
-  <input
-    placeholder="Jour"
-    maxLength={2}
-    onChange={(e)=>setBirthDate(prev => `${e.target.value}/${prev.split("/")[1]||""}/${prev.split("/")[2]||""}`)}
-    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black hidden md:block"
-  />
-
-  <input
-    placeholder="Mois"
-    maxLength={2}
-    onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${e.target.value}/${prev.split("/")[2]||""}`)}
-    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black hidden md:block"
-  />
-
-  <input
-    placeholder="Année"
-    maxLength={4}
-    onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${prev.split("/")[1]||""}/${e.target.value}`)}
-    className="rounded-xl bg-white/90 px-3 py-3 text-center text-black hidden md:block"
-  />
-
-</div>
-
-            <div className="text-left text-sm text-white/70">
-              Heure de naissance
+              Date de naissance
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <input placeholder="Heure" maxLength={2}
-                onChange={(e)=>setBirthTime(prev => `${e.target.value}:${prev.split(":")[1]||""}`)}
-                className="rounded-xl bg-white/90 px-3 py-3 text-center text-black"/>
-              <input placeholder="Minute" maxLength={2}
-                onChange={(e)=>setBirthTime(prev => `${prev.split(":")[0]||""}:${e.target.value}`)}
-                className="rounded-xl bg-white/90 px-3 py-3 text-center text-black"/>
-            </div>
+            <div className="grid grid-cols-3 gap-3">
 
-            <input
-              type="text"
-              placeholder="Ville de naissance"
-              value={birthPlace}
-              onChange={(e)=>setBirthPlace(e.target.value)}
-              className="w-full rounded-xl bg-white/90 px-4 py-3 text-black"
-            />
+              <input placeholder="JJ" maxLength={2}
+                onChange={(e)=>setBirthDate(prev => `${e.target.value}/${prev.split("/")[1]||""}/${prev.split("/")[2]||""}`)}
+                className="rounded-xl bg-white/90 px-3 py-3 text-center text-black block md:hidden"/>
+
+              <input placeholder="MM" maxLength={2}
+                onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${e.target.value}/${prev.split("/")[2]||""}`)}
+                className="rounded-xl bg-white/90 px-3 py-3 text-center text-black block md:hidden"/>
+
+              <input placeholder="AA" maxLength={4}
+                onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${prev.split("/")[1]||""}/${e.target.value}`)}
+                className="rounded-xl bg-white/90 px-3 py-3 text-center text-black block md:hidden"/>
+
+              <input placeholder="Jour" maxLength={2}
+                onChange={(e)=>setBirthDate(prev => `${e.target.value}/${prev.split("/")[1]||""}/${prev.split("/")[2]||""}`)}
+                className="rounded-xl bg-white/90 px-3 py-3 text-center text-black hidden md:block"/>
+
+              <input placeholder="Mois" maxLength={2}
+                onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${e.target.value}/${prev.split("/")[2]||""}`)}
+                className="rounded-xl bg-white/90 px-3 py-3 text-center text-black hidden md:block"/>
+
+              <input placeholder="Année" maxLength={4}
+                onChange={(e)=>setBirthDate(prev => `${prev.split("/")[0]||""}/${prev.split("/")[1]||""}/${e.target.value}`)}
+                className="rounded-xl bg-white/90 px-3 py-3 text-center text-black hidden md:block"/>
+
+            </div>
 
             <button
               type="submit"
@@ -303,25 +266,28 @@ export function ResultClient() {
             <div className="flex justify-center gap-3 flex-wrap">
 
               <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`}
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                 target="_blank"
-                className="px-4 py-2 rounded-full bg-white/10"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm"
               >
                 LinkedIn
               </a>
 
               <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Je viens de découvrir mon profil amoureux ❤️")}&url=${encodeURIComponent(currentUrl)}`}
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
                 target="_blank"
-                className="px-4 py-2 rounded-full bg-white/10"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm"
               >
                 Twitter
               </a>
 
               <a
-                href={`https://wa.me/?text=${encodeURIComponent("Fais ce test Love Scan ❤️ " + currentUrl)}`}
+                href={`https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`}
                 target="_blank"
-                className="px-4 py-2 rounded-full bg-white/10"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm"
               >
                 WhatsApp
               </a>
