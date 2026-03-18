@@ -241,47 +241,47 @@ Tu devrais essayer 👇`;
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black placeholder:text-gray-400"
             />
 
-            <div className="pt-2 text-left text-sm text-white/80">
-              Date de naissance
-            </div>
+           <div className="pt-2 text-left text-sm text-white/80">
+  Date de naissance
+</div>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <input
-                type="text"
-                inputMode="numeric"
-                placeholder="Jour"
-                maxLength={2}
-                value={birthDay}
-                onChange={(e) =>
-                  setBirthDay(e.target.value.replace(/\D/g, "").slice(0, 2))
-                }
-                className="w-full rounded-xl bg-white/90 px-4 py-3 text-center text-black placeholder:text-gray-400"
-              />
+<div className="grid grid-cols-3 gap-2 sm:gap-3">
+  <input
+    type="text"
+    inputMode="numeric"
+    placeholder={typeof window !== "undefined" && window.innerWidth < 640 ? "JJ" : "Jour"}
+    maxLength={2}
+    value={birthDay}
+    onChange={(e) =>
+      setBirthDay(e.target.value.replace(/\D/g, "").slice(0, 2))
+    }
+    className="w-full rounded-xl bg-white/90 px-2 sm:px-4 py-3 text-center text-black placeholder:text-gray-400"
+  />
 
-              <input
-                type="text"
-                inputMode="numeric"
-                placeholder="Mois"
-                maxLength={2}
-                value={birthMonth}
-                onChange={(e) =>
-                  setBirthMonth(e.target.value.replace(/\D/g, "").slice(0, 2))
-                }
-                className="w-full rounded-xl bg-white/90 px-4 py-3 text-center text-black placeholder:text-gray-400"
-              />
+  <input
+    type="text"
+    inputMode="numeric"
+    placeholder={typeof window !== "undefined" && window.innerWidth < 640 ? "MM" : "Mois"}
+    maxLength={2}
+    value={birthMonth}
+    onChange={(e) =>
+      setBirthMonth(e.target.value.replace(/\D/g, "").slice(0, 2))
+    }
+    className="w-full rounded-xl bg-white/90 px-2 sm:px-4 py-3 text-center text-black placeholder:text-gray-400"
+  />
 
-              <input
-                type="text"
-                inputMode="numeric"
-                placeholder="Année"
-                maxLength={4}
-                value={birthYear}
-                onChange={(e) =>
-                  setBirthYear(e.target.value.replace(/\D/g, "").slice(0, 4))
-                }
-                className="w-full rounded-xl bg-white/90 px-4 py-3 text-center text-black placeholder:text-gray-400"
-              />
-            </div>
+  <input
+    type="text"
+    inputMode="numeric"
+    placeholder={typeof window !== "undefined" && window.innerWidth < 640 ? "AA" : "Année"}
+    maxLength={4}
+    value={birthYear}
+    onChange={(e) =>
+      setBirthYear(e.target.value.replace(/\D/g, "").slice(0, 4))
+    }
+    className="w-full rounded-xl bg-white/90 px-2 sm:px-4 py-3 text-center text-black placeholder:text-gray-400"
+  />
+</div>
 
             <div className="pt-2 text-left text-sm text-white/80">
               Heure de naissance
