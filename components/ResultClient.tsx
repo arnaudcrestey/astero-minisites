@@ -78,47 +78,54 @@ Tu devrais essayer 👇`;
   }, [score]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!firstName.trim() || !email.trim()) {
-    alert("Merci de remplir les champs obligatoires.");
-    return;
+    if (!firstName.trim() || !email.trim()) {
+      alert("Merci de remplir les champs obligatoires.");
+      return;
+    }
+
+    setSending(true);
+
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: firstName.trim(),
+          email: email.trim(),
+          birthDay: birthDay.trim(),
+          birthMonth: birthMonth.trim(),
+          birthYear: birthYear.trim(),
+          birthHour: birthHour.trim(),
+          birthMinute: birthMinute.trim(),
+          birthPlace: birthPlace.trim(),
+          score,
+          profile,
+        }),
+      });
+
+      const result = await res.json();
+
+      if (res.ok && result?.success) {
+        setSubmitted(true);
+
+        setTimeout(() => {
+          router.push("/astrae");
+        }, 2500);
+      } else {
+        console.error("Erreur API /api/lead :", result);
+        alert(result?.error || "Erreur serveur.");
+      }
+    } catch (error) {
+      console.error("Erreur fetch /api/lead :", error);
+      alert("Erreur serveur.");
+    } finally {
+      setSending(false);
+    }
   }
-
-  setSending(true);
-
-  try {
-    const res = await fetch("/api/lead", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: firstName.trim(),
-        email: email.trim(),
-        birthDay: birthDay.trim(),
-        birthMonth: birthMonth.trim(),
-        birthYear: birthYear.trim(),
-        birthHour: birthHour.trim(),
-        birthMinute: birthMinute.trim(),
-        birthPlace: birthPlace.trim(),
-        score,
-        profile,
-      }),
-    });
-
-   const result = await res.json();
-
-if (res.ok && result?.success) {
-  setSubmitted(true);
-
-  setTimeout(() => {
-    router.push("/astrae");
-  }, 2500);
-} else {
-  console.error("Erreur API /api/lead :", result);
-  alert(result?.error || "Erreur serveur.");
-}
 
   if (submitted) {
     return (
@@ -307,7 +314,9 @@ if (res.ok && result?.success) {
           </form>
 
           <div className="mt-10">
-            <p className="mb-4 text-sm text-white/70">Quelqu’un doit voir ça 👀</p>
+            <p className="mb-4 text-sm text-white/70">
+              Quelqu’un doit voir ça 👀
+            </p>
 
             <div className="flex flex-wrap justify-center gap-3">
               <a
