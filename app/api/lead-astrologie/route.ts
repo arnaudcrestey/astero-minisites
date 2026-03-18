@@ -50,6 +50,8 @@ export async function POST(req: Request) {
       },
     });
 
+    await transporter.verify();
+
     await transporter.sendMail({
       from: `"LOVE SCAN - Cabinet Astrae" <${process.env.EMAIL_USER}>`,
       to: "arnaud.crestey14@gmail.com",
@@ -98,11 +100,16 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Erreur envoi mail :", error);
 
     return NextResponse.json(
-      { success: false, error: "Erreur serveur." },
+      {
+        success: false,
+        error: error?.message || "Erreur serveur.",
+        code: error?.code || null,
+        response: error?.response || null,
+      },
       { status: 500 }
     );
   }
