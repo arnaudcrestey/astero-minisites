@@ -113,7 +113,7 @@ Tu devrais essayer 👇`;
         setSubmitted(true);
 
         setTimeout(() => {
-          router.push("/astrae");
+          router.push("/");
         }, 2500);
       } else {
         console.error("Erreur API /api/lead :", result);
