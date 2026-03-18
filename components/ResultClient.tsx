@@ -110,15 +110,11 @@ Tu devrais essayer 👇`;
     const result = await res.json();
 
     if (res.ok && result?.success) {
-      setSubmitted(true);
-
-      setTimeout(() => {
-        router.push("/astrae");
-      }, 2500);
-    } else {
-      console.error("Erreur API /api/lead :", result);
-      alert(result?.error || "Erreur serveur.");
-    }
+  alert("API OK");
+} else {
+  console.error("Erreur API /api/lead :", result);
+  alert(result?.error || "Erreur serveur.");
+}
   } catch (error) {
     console.error("Erreur fetch /api/lead :", error);
     alert("Erreur serveur.");
