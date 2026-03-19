@@ -1,8 +1,10 @@
 "use client";
 
 import RadarLove from "@/components/RadarLove";
+import { ShareButtons } from "@/components/ShareButtons";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
 
 export function ResultClient() {
   const params = useSearchParams();
@@ -33,25 +35,7 @@ export function ResultClient() {
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const [currentUrl, setCurrentUrl] = useState("");
-
-  const shareText = `Je viens de faire un test sur ma façon d’aimer ❤️
-
-Résultat : ${score}%
-
-Franchement, je ne m’attendais pas à ça…
-
-Tu devrais essayer 👇`;
-
-  const shareUrl = currentUrl;
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setCurrentUrl(window.location.href);
-    }
-  }, []);
-
-  useEffect(() => {
+    useEffect(() => {
     async function generateAnalysis() {
       try {
         const res = await fetch("/api/analyse", {
@@ -330,46 +314,9 @@ Tu devrais essayer 👇`;
             </button>
           </form>
 
-          <div className="mt-10">
-            <p className="mb-4 text-sm text-white/70">
-              Quelqu’un doit voir ça 👀
-            </p>
-
-            <div className="flex flex-wrap justify-center gap-3">
-              <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                  shareUrl
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
-              >
-                LinkedIn
-              </a>
-
-              <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                  shareText
-                )}&url=${encodeURIComponent(shareUrl)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
-              >
-                Twitter
-              </a>
-
-              <a
-                href={`https://wa.me/?text=${encodeURIComponent(
-                  `${shareText} ${shareUrl}`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
-              >
-                WhatsApp
-              </a>
-            </div>
-          </div>
+         <div className="mt-10">
+  <ShareButtons score={score} />
+</div>
         </section>
       </section>
     </main>
