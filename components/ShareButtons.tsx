@@ -71,7 +71,7 @@ export function ShareButtons({ score }: ShareButtonsProps) {
     onClick={copyMessage}
     className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
   >
-    {copied ? "Copié ✓" : "Copier"}
+    {copied ? "Copié ✓" : "Copier le message"}
   </button>
 
   <a
@@ -98,7 +98,7 @@ export function ShareButtons({ score }: ShareButtonsProps) {
     rel="noreferrer"
     className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10 sm:col-span-1"
   >
-    X
+    Twitter
   </a>
 </div>
     </section>
