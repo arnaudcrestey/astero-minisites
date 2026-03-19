@@ -57,50 +57,50 @@ export function ShareButtons({ score }: ShareButtonsProps) {
         </p>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-3">
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-full border border-white/20 px-4 py-2 text-sm text-white/85 transition hover:bg-white/10"
-        >
-          WhatsApp
-        </a>
+     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+  <a
+    href={whatsappUrl}
+    target="_blank"
+    rel="noreferrer"
+    className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
+  >
+    WhatsApp
+  </a>
 
-        <button
-          onClick={copyMessage}
-          className="rounded-full border border-white/20 px-4 py-2 text-sm text-white/85 transition hover:bg-white/10"
-        >
-          {copied ? "Message copié ✓" : "Copier le message"}
-        </button>
+  <button
+    onClick={copyMessage}
+    className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
+  >
+    {copied ? "Copié ✓" : "Copier"}
+  </button>
 
-        <a
-          href={facebookUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-full border border-white/20 px-4 py-2 text-sm text-white/85 transition hover:bg-white/10"
-        >
-          Facebook
-        </a>
+  <a
+    href={facebookUrl}
+    target="_blank"
+    rel="noreferrer"
+    className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
+  >
+    Facebook
+  </a>
 
-        <a
-          href={linkedInUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-full border border-white/20 px-4 py-2 text-sm text-white/85 transition hover:bg-white/10"
-        >
-          LinkedIn
-        </a>
+  <a
+    href={linkedInUrl}
+    target="_blank"
+    rel="noreferrer"
+    className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
+  >
+    LinkedIn
+  </a>
 
-        <a
-          href={twitterUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-full border border-white/20 px-4 py-2 text-sm text-white/85 transition hover:bg-white/10"
-        >
-          Twitter
-        </a>
-      </div>
+  <a
+    href={twitterUrl}
+    target="_blank"
+    rel="noreferrer"
+    className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10 sm:col-span-1"
+  >
+    X
+  </a>
+</div>
     </section>
   );
 }
