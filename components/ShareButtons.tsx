@@ -22,7 +22,6 @@ export function ShareButtons({ score }: ShareButtonsProps) {
   const whatsappUrl = `https://wa.me/?text=${encodedText}%20${encodedUrl}`;
   const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`;
 
   async function copyMessage() {
     try {
@@ -35,7 +34,7 @@ export function ShareButtons({ score }: ShareButtonsProps) {
   }
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur-md">
+    <section className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur-md sm:p-8">
       <h3 className="mb-2 text-center text-2xl font-semibold text-white">
         Faire découvrir Love Scan
       </h3>
@@ -44,11 +43,11 @@ export function ShareButtons({ score }: ShareButtonsProps) {
         Partagez ce diagnostic amoureux avec une personne de votre entourage ou sur vos réseaux.
       </p>
 
-      <p className="mb-5 text-center text-sm text-white/55">
+      <p className="mb-6 text-center text-sm text-white/55">
         Cliquez sur un bouton pour partager le test avec un message déjà préparé.
       </p>
 
-      <div className="mx-auto mb-5 max-w-2xl rounded-2xl border border-white/10 bg-white/5 p-4 text-left">
+      <div className="mx-auto mb-6 max-w-2xl rounded-2xl border border-white/10 bg-white/5 p-4 text-left">
         <p className="mb-2 text-xs uppercase tracking-wide text-pink-300">
           Aperçu du message envoyé
         </p>
@@ -57,50 +56,41 @@ export function ShareButtons({ score }: ShareButtonsProps) {
         </p>
       </div>
 
-     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-  <a
-    href={whatsappUrl}
-    target="_blank"
-    rel="noreferrer"
-    className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
-  >
-    WhatsApp
-  </a>
+      <div className="mx-auto grid max-w-xl grid-cols-2 gap-3">
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
+        >
+          WhatsApp
+        </a>
 
-  <button
-    onClick={copyMessage}
-    className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
-  >
-    {copied ? "Copié ✓" : "Copier le message"}
-  </button>
+        <button
+          onClick={copyMessage}
+          className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
+        >
+          {copied ? "Copié ✓" : "Copier le message"}
+        </button>
 
-  <a
-    href={facebookUrl}
-    target="_blank"
-    rel="noreferrer"
-    className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
-  >
-    Facebook
-  </a>
+        <a
+          href={facebookUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
+        >
+          Facebook
+        </a>
 
-  <a
-    href={linkedInUrl}
-    target="_blank"
-    rel="noreferrer"
-    className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
-  >
-    LinkedIn
-  </a>
-
-  <a
-    href={twitterUrl}
-    target="_blank"
-    rel="noreferrer"
-    className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10 sm:col-span-1"
-  >
-    Twitter
-  </a>
-</div>
+        <a
+          href={linkedInUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-full border border-white/20 px-4 py-2 text-center text-sm text-white/85 transition hover:bg-white/10"
+        >
+          LinkedIn
+        </a>
+      </div>
     </section>
   );
 }
