@@ -73,7 +73,7 @@ export default function HomePage() {
         <p className="mt-4 text-xs text-slate-300/60 md:text-sm">
           Analyse proposée par{" "}
           <a
-            href="https://arnaudcrestey.com"
+            href="https://cabinet-astrae.fr"
             className="underline decoration-fuchsia-300/70 hover:text-white"
           >
             Cabinet Astrae
