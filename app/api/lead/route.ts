@@ -58,7 +58,7 @@ export async function POST(req: Request) {
 
     await transporter.sendMail({
       from: `"LOVE SCAN - Cabinet Astrae" <${process.env.EMAIL_USER}>`,
-      to: "arnaud.crestey14@gmail.com",
+      to: "contact@cabinet-astrae.fr",
       replyTo: email,
       subject: "Nouveau lead LOVE SCAN",
       html: `
