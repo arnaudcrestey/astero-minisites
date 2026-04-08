@@ -29,36 +29,48 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    if (
+      !process.env.SMTP_HOST ||
+      !process.env.SMTP_PORT ||
+      !process.env.SMTP_USER ||
+      !process.env.SMTP_PASS ||
+      !process.env.LEAD_EMAIL
+    ) {
+      console.error("Missing SMTP environment variables");
+
       return NextResponse.json(
-        { success: false, error: "Variables email manquantes." },
+        { success: false, error: "Configuration e-mail incomplète." },
         { status: 500 }
       );
     }
 
     const safeBirthDate =
-      [birthDay, birthMonth, birthYear].filter(Boolean).join("/") || "Non précisée";
+      [birthDay, birthMonth, birthYear].filter(Boolean).join("/") ||
+      "Non précisée";
 
     const safeBirthTime =
-      [birthHour, birthMinute].filter(Boolean).join(":") || "Non précisée";
+      [birthHour, birthMinute].filter(Boolean).join(":") ||
+      "Non précisée";
 
     const safeBirthPlace = birthPlace?.trim() || "Non précisé";
     const safeProfile = profile?.trim() || "Non défini";
     const safeScore = typeof score === "number" ? score : "Non défini";
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: Number(process.env.SMTP_PORT) === 465,
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
     });
 
     await transporter.verify();
 
     await transporter.sendMail({
-      from: `"LOVE SCAN - Cabinet Astrae" <${process.env.EMAIL_USER}>`,
-      to: "contact@cabinet-astrae.fr",
+      from: `"LOVE SCAN - Cabinet Astrae" <${process.env.SMTP_USER}>`,
+      to: process.env.LEAD_EMAIL,
       replyTo: email,
       subject: "Nouveau lead LOVE SCAN",
       html: `
@@ -69,14 +81,14 @@ export async function POST(req: Request) {
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
 
           <h3 style="margin:0 0 12px 0;">Informations</h3>
-          <p style="margin:0 0 8px 0;"><strong>Prénom :</strong> ${firstName}</p>
-          <p style="margin:0 0 8px 0;"><strong>Email :</strong> <a href="mailto:${email}">${email}</a></p>
+          <p><strong>Prénom :</strong> ${firstName}</p>
+          <p><strong>Email :</strong> <a href="mailto:${email}">${email}</a></p>
 
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
 
           <h3 style="margin:0 0 12px 0;">Résultat</h3>
-          <p style="margin:0 0 8px 0;"><strong>Score relationnel :</strong> ${safeScore}%</p>
-          <p style="margin:0 0 8px 0;"><strong>Profil détecté :</strong> ${safeProfile}</p>
+          <p><strong>Score relationnel :</strong> ${safeScore}%</p>
+          <p><strong>Profil détecté :</strong> ${safeProfile}</p>
 
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
 
@@ -111,8 +123,6 @@ export async function POST(req: Request) {
       {
         success: false,
         error: error?.message || "Erreur serveur.",
-        code: error?.code || null,
-        response: error?.response || null,
       },
       { status: 500 }
     );
