@@ -5,7 +5,6 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-
 export function ResultClient() {
   const params = useSearchParams();
   const router = useRouter();
@@ -35,7 +34,7 @@ export function ResultClient() {
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
     async function generateAnalysis() {
       try {
         const res = await fetch("/api/analyse", {
@@ -64,8 +63,18 @@ export function ResultClient() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!firstName.trim() || !email.trim()) {
-      alert("Merci de remplir les champs obligatoires.");
+    const isFormIncomplete =
+      !firstName.trim() ||
+      !email.trim() ||
+      !birthDay.trim() ||
+      !birthMonth.trim() ||
+      !birthYear.trim() ||
+      !birthHour.trim() ||
+      !birthMinute.trim() ||
+      !birthPlace.trim();
+
+    if (isFormIncomplete) {
+      alert("Merci de remplir tous les champs obligatoires.");
       return;
     }
 
@@ -111,35 +120,35 @@ export function ResultClient() {
     }
   }
 
- if (submitted) {
-  return (
-    <main className="flex min-h-screen items-center justify-center px-6 py-10">
-      <div className="w-full max-w-2xl rounded-3xl border border-white/10 bg-white/5 p-10 text-center shadow-2xl backdrop-blur-xl">
-        <div className="mb-6 flex justify-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-pink-200/80 to-violet-300/80 text-3xl shadow-lg">
-            💌
+  if (submitted) {
+    return (
+      <main className="flex min-h-screen items-center justify-center px-6 py-10">
+        <div className="w-full max-w-2xl rounded-3xl border border-white/10 bg-white/5 p-10 text-center shadow-2xl backdrop-blur-xl">
+          <div className="mb-6 flex justify-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-pink-200/80 to-violet-300/80 text-3xl shadow-lg">
+              💌
+            </div>
           </div>
+
+          <h2 className="mb-4 text-4xl font-bold text-white">
+            Demande confirmée
+          </h2>
+
+          <p className="mb-4 text-lg text-white/85">
+            Votre demande a bien été enregistrée.
+          </p>
+
+          <p className="text-white/70">
+            Votre analyse personnalisée vous sera envoyée très prochainement.
+          </p>
+
+          <p className="mt-8 text-sm text-white/45">
+            ✨ Pensez à vérifier votre boîte email ainsi que vos spams.
+          </p>
         </div>
-
-        <h2 className="mb-4 text-4xl font-bold text-white">
-          Demande confirmée
-        </h2>
-
-        <p className="mb-4 text-lg text-white/85">
-          Votre demande a bien été enregistrée.
-        </p>
-
-        <p className="text-white/70">
-          Votre analyse personnalisée vous sera envoyée très prochainement.
-        </p>
-
-        <p className="mt-8 text-sm text-white/45">
-          ✨ Pensez à vérifier votre boîte email ainsi que vos spams.
-        </p>
-      </div>
-    </main>
-  );
-}
+      </main>
+    );
+  }
 
   return (
     <main className="flex min-h-screen items-center justify-center px-4 py-10">
@@ -225,47 +234,50 @@ export function ResultClient() {
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black placeholder:text-gray-400"
             />
 
-           <div className="pt-2 text-left text-sm text-white/80">
-  Date de naissance
-</div>
+            <div className="pt-2 text-left text-sm text-white/80">
+              Date de naissance
+            </div>
 
-<div className="grid grid-cols-3 gap-2 sm:gap-3">
-  <input
-    type="text"
-    inputMode="numeric"
-    placeholder={typeof window !== "undefined" && window.innerWidth < 640 ? "JJ" : "Jour"}
-    maxLength={2}
-    value={birthDay}
-    onChange={(e) =>
-      setBirthDay(e.target.value.replace(/\D/g, "").slice(0, 2))
-    }
-    className="w-full rounded-xl bg-white/90 px-2 sm:px-4 py-3 text-center text-black placeholder:text-gray-400"
-  />
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+              <input
+                type="text"
+                inputMode="numeric"
+                placeholder="Jour"
+                maxLength={2}
+                value={birthDay}
+                onChange={(e) =>
+                  setBirthDay(e.target.value.replace(/\D/g, "").slice(0, 2))
+                }
+                required
+                className="w-full rounded-xl bg-white/90 px-2 py-3 text-center text-black placeholder:text-gray-400 sm:px-4"
+              />
 
-  <input
-    type="text"
-    inputMode="numeric"
-    placeholder={typeof window !== "undefined" && window.innerWidth < 640 ? "MM" : "Mois"}
-    maxLength={2}
-    value={birthMonth}
-    onChange={(e) =>
-      setBirthMonth(e.target.value.replace(/\D/g, "").slice(0, 2))
-    }
-    className="w-full rounded-xl bg-white/90 px-2 sm:px-4 py-3 text-center text-black placeholder:text-gray-400"
-  />
+              <input
+                type="text"
+                inputMode="numeric"
+                placeholder="Mois"
+                maxLength={2}
+                value={birthMonth}
+                onChange={(e) =>
+                  setBirthMonth(e.target.value.replace(/\D/g, "").slice(0, 2))
+                }
+                required
+                className="w-full rounded-xl bg-white/90 px-2 py-3 text-center text-black placeholder:text-gray-400 sm:px-4"
+              />
 
-  <input
-    type="text"
-    inputMode="numeric"
-    placeholder={typeof window !== "undefined" && window.innerWidth < 640 ? "AA" : "Année"}
-    maxLength={4}
-    value={birthYear}
-    onChange={(e) =>
-      setBirthYear(e.target.value.replace(/\D/g, "").slice(0, 4))
-    }
-    className="w-full rounded-xl bg-white/90 px-2 sm:px-4 py-3 text-center text-black placeholder:text-gray-400"
-  />
-</div>
+              <input
+                type="text"
+                inputMode="numeric"
+                placeholder="Année"
+                maxLength={4}
+                value={birthYear}
+                onChange={(e) =>
+                  setBirthYear(e.target.value.replace(/\D/g, "").slice(0, 4))
+                }
+                required
+                className="w-full rounded-xl bg-white/90 px-2 py-3 text-center text-black placeholder:text-gray-400 sm:px-4"
+              />
+            </div>
 
             <div className="pt-2 text-left text-sm text-white/80">
               Heure de naissance
@@ -281,6 +293,7 @@ export function ResultClient() {
                 onChange={(e) =>
                   setBirthHour(e.target.value.replace(/\D/g, "").slice(0, 2))
                 }
+                required
                 className="w-full rounded-xl bg-white/90 px-4 py-3 text-center text-black placeholder:text-gray-400"
               />
 
@@ -293,6 +306,7 @@ export function ResultClient() {
                 onChange={(e) =>
                   setBirthMinute(e.target.value.replace(/\D/g, "").slice(0, 2))
                 }
+                required
                 className="w-full rounded-xl bg-white/90 px-4 py-3 text-center text-black placeholder:text-gray-400"
               />
             </div>
@@ -302,6 +316,7 @@ export function ResultClient() {
               placeholder="Ville de naissance"
               value={birthPlace}
               onChange={(e) => setBirthPlace(e.target.value)}
+              required
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black placeholder:text-gray-400"
             />
 
@@ -314,9 +329,9 @@ export function ResultClient() {
             </button>
           </form>
 
-         <div className="mt-10">
-  <ShareButtons score={score} />
-</div>
+          <div className="mt-10">
+            <ShareButtons score={score} />
+          </div>
         </section>
       </section>
     </main>
