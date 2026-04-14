@@ -61,13 +61,16 @@ export function ResultClient() {
   }, [score]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
 
-    // 🔒 validation réelle (TOUS les champs)
+    // 👉 NE PAS preventDefault ici
+
     if (!e.currentTarget.checkValidity()) {
+      e.preventDefault(); // bloque uniquement si invalide
       e.currentTarget.reportValidity();
       return;
     }
+
+    e.preventDefault(); // ok ici → tout est valide
 
     setSending(true);
 
@@ -135,6 +138,7 @@ export function ResultClient() {
 
           <input
             type="text"
+            name="firstName"
             placeholder="Votre prénom"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
@@ -144,6 +148,7 @@ export function ResultClient() {
 
           <input
             type="email"
+            name="email"
             placeholder="Votre email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -153,6 +158,7 @@ export function ResultClient() {
 
           <div className="grid grid-cols-3 gap-2">
             <input
+              name="birthDay"
               placeholder="Jour"
               value={birthDay}
               onChange={(e) =>
@@ -162,6 +168,7 @@ export function ResultClient() {
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black text-center"
             />
             <input
+              name="birthMonth"
               placeholder="Mois"
               value={birthMonth}
               onChange={(e) =>
@@ -171,6 +178,7 @@ export function ResultClient() {
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black text-center"
             />
             <input
+              name="birthYear"
               placeholder="Année"
               value={birthYear}
               onChange={(e) =>
@@ -183,6 +191,7 @@ export function ResultClient() {
 
           <div className="grid grid-cols-2 gap-2">
             <input
+              name="birthHour"
               placeholder="Heure"
               value={birthHour}
               onChange={(e) =>
@@ -192,6 +201,7 @@ export function ResultClient() {
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black text-center"
             />
             <input
+              name="birthMinute"
               placeholder="Minute"
               value={birthMinute}
               onChange={(e) =>
@@ -203,6 +213,7 @@ export function ResultClient() {
           </div>
 
           <input
+            name="birthPlace"
             placeholder="Ville de naissance"
             value={birthPlace}
             onChange={(e) => setBirthPlace(e.target.value)}
