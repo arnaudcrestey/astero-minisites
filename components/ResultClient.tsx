@@ -61,16 +61,22 @@ export function ResultClient() {
   }, [score]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-    // 👉 NE PAS preventDefault ici
-
-    if (!e.currentTarget.checkValidity()) {
-      e.preventDefault(); // bloque uniquement si invalide
-      e.currentTarget.reportValidity();
+    // 🔒 VALIDATION FORCÉE (aucun contournement possible)
+    if (
+      firstName.trim() === "" ||
+      email.trim() === "" ||
+      birthDay.trim() === "" ||
+      birthMonth.trim() === "" ||
+      birthYear.trim() === "" ||
+      birthHour.trim() === "" ||
+      birthMinute.trim() === "" ||
+      birthPlace.trim() === ""
+    ) {
+      alert("Tous les champs sont obligatoires.");
       return;
     }
-
-    e.preventDefault(); // ok ici → tout est valide
 
     setSending(true);
 
@@ -137,96 +143,67 @@ export function ResultClient() {
         <form onSubmit={handleSubmit} className="mt-10 space-y-4">
 
           <input
-            type="text"
-            name="firstName"
             placeholder="Votre prénom"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            required
             className="w-full rounded-xl bg-white/90 px-4 py-3 text-black"
           />
 
           <input
-            type="email"
-            name="email"
             placeholder="Votre email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
             className="w-full rounded-xl bg-white/90 px-4 py-3 text-black"
           />
 
           <div className="grid grid-cols-3 gap-2">
             <input
-              name="birthDay"
               placeholder="Jour"
               value={birthDay}
-              onChange={(e) =>
-                setBirthDay(e.target.value.replace(/\D/g, "").slice(0, 2))
-              }
-              required
+              onChange={(e) => setBirthDay(e.target.value)}
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black text-center"
             />
             <input
-              name="birthMonth"
               placeholder="Mois"
               value={birthMonth}
-              onChange={(e) =>
-                setBirthMonth(e.target.value.replace(/\D/g, "").slice(0, 2))
-              }
-              required
+              onChange={(e) => setBirthMonth(e.target.value)}
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black text-center"
             />
             <input
-              name="birthYear"
               placeholder="Année"
               value={birthYear}
-              onChange={(e) =>
-                setBirthYear(e.target.value.replace(/\D/g, "").slice(0, 4))
-              }
-              required
+              onChange={(e) => setBirthYear(e.target.value)}
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black text-center"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-2">
             <input
-              name="birthHour"
               placeholder="Heure"
               value={birthHour}
-              onChange={(e) =>
-                setBirthHour(e.target.value.replace(/\D/g, "").slice(0, 2))
-              }
-              required
+              onChange={(e) => setBirthHour(e.target.value)}
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black text-center"
             />
             <input
-              name="birthMinute"
               placeholder="Minute"
               value={birthMinute}
-              onChange={(e) =>
-                setBirthMinute(e.target.value.replace(/\D/g, "").slice(0, 2))
-              }
-              required
+              onChange={(e) => setBirthMinute(e.target.value)}
               className="w-full rounded-xl bg-white/90 px-4 py-3 text-black text-center"
             />
           </div>
 
           <input
-            name="birthPlace"
             placeholder="Ville de naissance"
             value={birthPlace}
             onChange={(e) => setBirthPlace(e.target.value)}
-            required
             className="w-full rounded-xl bg-white/90 px-4 py-3 text-black"
           />
 
           <button
             type="submit"
-            disabled={sending}
             className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 py-4 text-white"
           >
-            {sending ? "Envoi..." : "Recevoir mon analyse"}
+            Recevoir mon analyse
           </button>
         </form>
 
