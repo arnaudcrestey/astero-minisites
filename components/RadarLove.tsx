@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   Radar,
   RadarChart,
@@ -14,6 +15,23 @@ type Props = {
 };
 
 export default function RadarLove({ score }: Props) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 639px)");
+
+    const updateViewport = () => {
+      setIsMobile(mediaQuery.matches);
+    };
+
+    updateViewport();
+    mediaQuery.addEventListener("change", updateViewport);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateViewport);
+    };
+  }, []);
+
   const data = [
     { dimension: "Communication", value: Math.min(score + 5, 100) },
     { dimension: "Attachement", value: Math.max(score - 5, 0) },
@@ -22,23 +40,51 @@ export default function RadarLove({ score }: Props) {
   ];
 
   return (
-    <div className="mx-auto w-full max-w-[280px] sm:max-w-[320px]">
-      <ResponsiveContainer width="100%" height={240}>
-        <RadarChart
-          cx="50%"
-          cy="50%"
-          outerRadius="58%"
-          data={data}
-          margin={{ top: 10, right: 24, bottom: 10, left: 24 }}
-        >
-          <PolarGrid stroke="#ffffff20" />
+    <div className="mx-auto w-full max-w-[300px] sm:max-w-[220px]">
+      <div className="h-[220px] sm:h-[180px] w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart
+            data={data}
+            outerRadius={isMobile ? 78 : 65}
+            margin={isMobile ? { top: 8, right: 18, bottom: 8, left: 18 } : { top: 0, right: 0, bottom: 0, left: 0 }}
+          >
+            <PolarGrid stroke="#ffffff20" />
 
-          <PolarAngleAxis
-            dataKey="dimension"
-            tick={({ payload, x, y, textAnchor }) => {
-              const label = String(payload.value);
+            <PolarAngleAxis
+              dataKey="dimension"
+              tick={({ payload, x, y, textAnchor }) => {
+                const label = String(payload.value);
 
-              if (label === "Communication") {
+                if (label === "Communication") {
+                  return (
+                    <text
+                      x={x}
+                      y={y}
+                      textAnchor={textAnchor}
+                      fill="#ddd"
+                      fontSize={10}
+                    >
+                      <tspan x={x} dy="0">Communi-</tspan>
+                      <tspan x={x} dy="11">cation</tspan>
+                    </text>
+                  );
+                }
+
+                if (label === "Attachement") {
+                  return (
+                    <text
+                      x={x}
+                      y={y}
+                      textAnchor={textAnchor}
+                      fill="#ddd"
+                      fontSize={10}
+                    >
+                      <tspan x={x} dy="0">Attache-</tspan>
+                      <tspan x={x} dy="11">ment</tspan>
+                    </text>
+                  );
+                }
+
                 return (
                   <text
                     x={x}
@@ -47,56 +93,28 @@ export default function RadarLove({ score }: Props) {
                     fill="#ddd"
                     fontSize={10}
                   >
-                    <tspan x={x} dy="0">Communi-</tspan>
-                    <tspan x={x} dy="12">cation</tspan>
+                    {label}
                   </text>
                 );
-              }
+              }}
+            />
 
-              if (label === "Attachement") {
-                return (
-                  <text
-                    x={x}
-                    y={y}
-                    textAnchor={textAnchor}
-                    fill="#ddd"
-                    fontSize={10}
-                  >
-                    <tspan x={x} dy="0">Attache-</tspan>
-                    <tspan x={x} dy="12">ment</tspan>
-                  </text>
-                );
-              }
+            <PolarRadiusAxis
+              angle={30}
+              domain={[0, 100]}
+              tick={false}
+              axisLine={false}
+            />
 
-              return (
-                <text
-                  x={x}
-                  y={y}
-                  textAnchor={textAnchor}
-                  fill="#ddd"
-                  fontSize={10}
-                >
-                  {label}
-                </text>
-              );
-            }}
-          />
-
-          <PolarRadiusAxis
-            angle={30}
-            domain={[0, 100]}
-            tick={false}
-            axisLine={false}
-          />
-
-          <Radar
-            dataKey="value"
-            stroke="#c084fc"
-            fill="#c084fc"
-            fillOpacity={0.55}
-          />
-        </RadarChart>
-      </ResponsiveContainer>
+            <Radar
+              dataKey="value"
+              stroke="#c084fc"
+              fill="#c084fc"
+              fillOpacity={0.55}
+            />
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
