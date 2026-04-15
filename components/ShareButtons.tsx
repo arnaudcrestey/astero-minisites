@@ -27,7 +27,10 @@ export function ShareButtons({ score }: ShareButtonsProps) {
     try {
       await navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+
+      window.setTimeout(() => {
+        setCopied(false);
+      }, 2000);
     } catch (error) {
       console.error(error);
     }
@@ -35,18 +38,19 @@ export function ShareButtons({ score }: ShareButtonsProps) {
 
   return (
     <div className="mt-10 flex flex-col items-center gap-6">
-      {/* ====== BLOC PARTAGE ====== */}
       <section className="w-full max-w-xl rounded-2xl border border-white/10 bg-white/5 p-4 shadow-xl backdrop-blur-md sm:p-6">
         <h3 className="text-center text-xl font-semibold text-white sm:text-2xl">
           Faire découvrir Love Scan
         </h3>
 
         <p className="mx-auto mt-2 max-w-xl text-center text-xs leading-relaxed text-white/75 sm:text-sm">
-          Partagez ce diagnostic amoureux avec une personne de votre entourage ou sur vos réseaux.
+          Partagez ce diagnostic amoureux avec une personne de votre entourage ou
+          sur vos réseaux.
         </p>
 
         <p className="mx-auto mt-2 max-w-xl text-center text-[11px] leading-relaxed text-white/55 sm:mt-3 sm:text-sm">
-          Cliquez sur un bouton pour partager le test avec un message déjà préparé.
+          Cliquez sur un bouton pour partager le test avec un message déjà
+          préparé.
         </p>
 
         <div className="mx-auto mt-4 max-w-xl rounded-2xl border border-white/10 bg-white/5 p-3 text-left sm:mt-6 sm:p-4">
@@ -70,10 +74,11 @@ export function ShareButtons({ score }: ShareButtonsProps) {
           </a>
 
           <button
+            type="button"
             onClick={copyMessage}
             className="rounded-full border border-white/20 px-3 py-2 text-center text-xs text-white/85 transition hover:bg-white/10 sm:px-4 sm:text-sm"
           >
-            {copied ? "Message Copié ✓" : "Copier le message"}
+            {copied ? "Message copié ✓" : "Copier le message"}
           </button>
 
           <a
@@ -96,26 +101,25 @@ export function ShareButtons({ score }: ShareButtonsProps) {
         </div>
       </section>
 
-      {/* ====== SIGNATURE AC ====== */}
-      <div className="mt-8 flex justify-center">
-  <a
-    href="https://arnaudcrestey.com"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group flex flex-col items-center"
-  >
-    {/* AC serré */}
-    <span className="font-serif text-[34px] leading-none text-white/90 sm:text-[40px]">
-      <span className="inline-block -mr-[0.2em]">A</span>
-      <span className="inline-block">C</span>
-    </span>
+      <div className="mt-2 flex justify-center">
+        <a
+          href="https://arnaudcrestey.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex flex-col items-center"
+        >
+          <span className="font-serif text-[34px] leading-none text-white/90 sm:text-[40px]">
+            <span className="inline-block -mr-[0.2em]">A</span>
+            <span className="inline-block">C</span>
+          </span>
 
-    {/* lien */}
-    <span className="mt-1 text-[14px] text-white/70 transition group-hover:text-white/90 sm:text-[15px]">
-      arnaudcrestey.com
-    </span>
+          <span className="mt-1 text-[14px] text-white/70 transition group-hover:text-white/90 sm:text-[15px]">
+            arnaudcrestey.com
+          </span>
 
-    {/* trait */}
-    <span className="mt-2 h-[1px] w-16 bg-white/20 transition group-hover:bg-white/40" />
-  </a>
-</div>
+          <span className="mt-2 h-px w-16 bg-white/20 transition group-hover:bg-white/40" />
+        </a>
+      </div>
+    </div>
+  );
+}
