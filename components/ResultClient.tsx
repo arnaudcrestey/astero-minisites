@@ -310,7 +310,11 @@ export function ResultClient() {
                 className="w-full rounded-xl bg-white/90 px-4 py-3 text-center text-black placeholder:text-gray-400"
               />
             </div>
-
+                <p className="text-[13px] leading-6 text-mirror-muted">
+                    Si vous ne connaissez pas votre heure exacte, une estimation permet
+                  déjà une première lecture.
+                </p>
+            
             <input
               type="text"
               placeholder="Ville de naissance"
