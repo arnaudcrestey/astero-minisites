@@ -101,25 +101,28 @@ export function ShareButtons({ score }: ShareButtonsProps) {
         </div>
       </section>
 
-      <div className="mt-2 flex justify-center">
-        <a
-          href="https://arnaudcrestey.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group flex flex-col items-center"
-        >
-          <span className="font-serif text-[34px] leading-none text-white/90 sm:text-[40px]">
-            <span className="inline-block -mr-[0.2em]">A</span>
-            <span className="inline-block">C</span>
-          </span>
+      <div className="mt-8 flex justify-center">
+  <a
+    href="https://arnaudcrestey.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group flex flex-col items-center"
+  >
+    {/* AC ajusté */}
+    <span className="font-serif text-[34px] leading-none text-white/90 sm:text-[40px]">
+      <span className="inline-block -mr-[0.14em]">A</span>
+      <span className="inline-block">C</span>
+    </span>
 
-          <span className="mt-1 text-[14px] text-white/70 transition group-hover:text-white/90 sm:text-[15px]">
-            arnaudcrestey.com
-          </span>
+    {/* lien */}
+    <span className="mt-1 text-[14px] text-white/70 transition group-hover:text-white/90 sm:text-[15px]">
+      arnaudcrestey.com
+    </span>
 
-          <span className="mt-2 h-px w-16 bg-white/20 transition group-hover:bg-white/40" />
-        </a>
-      </div>
+    {/* trait */}
+    <span className="mt-2 h-px w-16 bg-white/20 transition group-hover:bg-white/40" />
+  </a>
+</div>
     </div>
   );
 }
