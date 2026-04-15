@@ -46,24 +46,48 @@ export default function RadarLove({ score }: Props) {
           <RadarChart
             data={data}
             outerRadius={isMobile ? 78 : 65}
-            margin={isMobile ? { top: 8, right: 18, bottom: 8, left: 18 } : { top: 0, right: 0, bottom: 0, left: 0 }}
+            margin={
+              isMobile
+                ? { top: 8, right: 26, bottom: 8, left: 26 }
+                : { top: 0, right: 0, bottom: 0, left: 0 }
+            }
           >
             <PolarGrid stroke="#ffffff20" />
 
             <PolarAngleAxis
               dataKey="dimension"
-              tick={({ payload, x, y, textAnchor }) => {
+              tick={({ payload, x, y }) => {
                 const label = String(payload.value);
+
+                if (!isMobile) {
+                  if (label === "Communication") {
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fill="#ddd" fontSize={10}>
+                        <tspan x={x} dy="0">Communi-</tspan>
+                        <tspan x={x} dy="11">cation</tspan>
+                      </text>
+                    );
+                  }
+
+                  if (label === "Attachement") {
+                    return (
+                      <text x={x} y={y} textAnchor="middle" fill="#ddd" fontSize={10}>
+                        <tspan x={x} dy="0">Attache-</tspan>
+                        <tspan x={x} dy="11">ment</tspan>
+                      </text>
+                    );
+                  }
+
+                  return (
+                    <text x={x} y={y} textAnchor="middle" fill="#ddd" fontSize={10}>
+                      {label}
+                    </text>
+                  );
+                }
 
                 if (label === "Communication") {
                   return (
-                    <text
-                      x={x}
-                      y={y}
-                      textAnchor={textAnchor}
-                      fill="#ddd"
-                      fontSize={10}
-                    >
+                    <text x={x} y={y - 2} textAnchor="middle" fill="#ddd" fontSize={10}>
                       <tspan x={x} dy="0">Communi-</tspan>
                       <tspan x={x} dy="11">cation</tspan>
                     </text>
@@ -73,26 +97,34 @@ export default function RadarLove({ score }: Props) {
                 if (label === "Attachement") {
                   return (
                     <text
-                      x={x}
+                      x={x - 8}
                       y={y}
-                      textAnchor={textAnchor}
+                      textAnchor="start"
                       fill="#ddd"
                       fontSize={10}
                     >
-                      <tspan x={x} dy="0">Attache-</tspan>
-                      <tspan x={x} dy="11">ment</tspan>
+                      <tspan x={x - 8} dy="0">Attache-</tspan>
+                      <tspan x={x - 8} dy="11">ment</tspan>
+                    </text>
+                  );
+                }
+
+                if (label === "Vision") {
+                  return (
+                    <text
+                      x={x + 8}
+                      y={y}
+                      textAnchor="end"
+                      fill="#ddd"
+                      fontSize={10}
+                    >
+                      {label}
                     </text>
                   );
                 }
 
                 return (
-                  <text
-                    x={x}
-                    y={y}
-                    textAnchor={textAnchor}
-                    fill="#ddd"
-                    fontSize={10}
-                  >
+                  <text x={x} y={y + 2} textAnchor="middle" fill="#ddd" fontSize={10}>
                     {label}
                   </text>
                 );
