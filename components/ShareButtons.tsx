@@ -34,64 +34,86 @@ export function ShareButtons({ score }: ShareButtonsProps) {
   }
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-xl backdrop-blur-md sm:p-6">
-      <h3 className="text-center text-xl font-semibold text-white sm:text-2xl">
-        Faire découvrir Love Scan
-      </h3>
+    <div className="mt-10 flex flex-col items-center gap-6">
+      {/* ====== BLOC PARTAGE ====== */}
+      <section className="w-full max-w-xl rounded-2xl border border-white/10 bg-white/5 p-4 shadow-xl backdrop-blur-md sm:p-6">
+        <h3 className="text-center text-xl font-semibold text-white sm:text-2xl">
+          Faire découvrir Love Scan
+        </h3>
 
-      <p className="mx-auto mt-2 max-w-xl text-center text-xs leading-relaxed text-white/75 sm:text-sm">
-        Partagez ce diagnostic amoureux avec une personne de votre entourage ou sur vos réseaux.
-      </p>
-
-      <p className="mx-auto mt-2 max-w-xl text-center text-[11px] leading-relaxed text-white/55 sm:mt-3 sm:text-sm">
-        Cliquez sur un bouton pour partager le test avec un message déjà préparé.
-      </p>
-
-      <div className="mx-auto mt-4 max-w-xl rounded-2xl border border-white/10 bg-white/5 p-3 text-left sm:mt-6 sm:p-4">
-        <p className="mb-2 text-[10px] uppercase tracking-wide text-pink-300 sm:text-xs">
-          Aperçu du message envoyé
+        <p className="mx-auto mt-2 max-w-xl text-center text-xs leading-relaxed text-white/75 sm:text-sm">
+          Partagez ce diagnostic amoureux avec une personne de votre entourage ou sur vos réseaux.
         </p>
 
-        <p className="text-xs leading-relaxed text-white/80 sm:text-sm">
-          {shareText}
+        <p className="mx-auto mt-2 max-w-xl text-center text-[11px] leading-relaxed text-white/55 sm:mt-3 sm:text-sm">
+          Cliquez sur un bouton pour partager le test avec un message déjà préparé.
         </p>
+
+        <div className="mx-auto mt-4 max-w-xl rounded-2xl border border-white/10 bg-white/5 p-3 text-left sm:mt-6 sm:p-4">
+          <p className="mb-2 text-[10px] uppercase tracking-wide text-pink-300 sm:text-xs">
+            Aperçu du message envoyé
+          </p>
+
+          <p className="text-xs leading-relaxed text-white/80 sm:text-sm">
+            {shareText}
+          </p>
+        </div>
+
+        <div className="mx-auto mt-4 grid max-w-xl grid-cols-2 gap-2 sm:mt-6 sm:gap-3">
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full border border-white/20 px-3 py-2 text-center text-xs text-white/85 transition hover:bg-white/10 sm:px-4 sm:text-sm"
+          >
+            WhatsApp
+          </a>
+
+          <button
+            onClick={copyMessage}
+            className="rounded-full border border-white/20 px-3 py-2 text-center text-xs text-white/85 transition hover:bg-white/10 sm:px-4 sm:text-sm"
+          >
+            {copied ? "Message Copié ✓" : "Copier le message"}
+          </button>
+
+          <a
+            href={facebookUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full border border-white/20 px-3 py-2 text-center text-xs text-white/85 transition hover:bg-white/10 sm:px-4 sm:text-sm"
+          >
+            Facebook
+          </a>
+
+          <a
+            href={linkedInUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full border border-white/20 px-3 py-2 text-center text-xs text-white/85 transition hover:bg-white/10 sm:px-4 sm:text-sm"
+          >
+            LinkedIn
+          </a>
+        </div>
+      </section>
+
+      {/* ====== SIGNATURE AC ====== */}
+      <div className="flex flex-col items-center gap-2 opacity-70 transition hover:opacity-100">
+        <span className="text-[11px] text-white/40">
+          Dispositif conçu par
+        </span>
+
+        <a
+          href="https://arnaudcrestey.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="/images/ac-signature.png"
+            alt="arnaudcrestey.com"
+            className="w-[110px] sm:w-[120px]"
+          />
+        </a>
       </div>
-
-      <div className="mx-auto mt-4 grid max-w-xl grid-cols-2 gap-2 sm:mt-6 sm:gap-3">
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-full border border-white/20 px-3 py-2 text-center text-xs text-white/85 transition hover:bg-white/10 sm:px-4 sm:text-sm"
-        >
-          WhatsApp
-        </a>
-
-        <button
-          onClick={copyMessage}
-          className="rounded-full border border-white/20 px-3 py-2 text-center text-xs text-white/85 transition hover:bg-white/10 sm:px-4 sm:text-sm"
-        >
-          {copied ? "Message Copié ✓" : "Copier le message"}
-        </button>
-
-        <a
-          href={facebookUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-full border border-white/20 px-3 py-2 text-center text-xs text-white/85 transition hover:bg-white/10 sm:px-4 sm:text-sm"
-        >
-          Facebook
-        </a>
-
-        <a
-          href={linkedInUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-full border border-white/20 px-3 py-2 text-center text-xs text-white/85 transition hover:bg-white/10 sm:px-4 sm:text-sm"
-        >
-          LinkedIn
-        </a>
-      </div>
-    </section>
+    </div>
   );
 }
