@@ -48,7 +48,7 @@ export default function RadarLove({ score }: Props) {
             outerRadius={isMobile ? 78 : 65}
             margin={
               isMobile
-                ? { top: 8, right: 26, bottom: 8, left: 26 }
+                ? { top: 10, right: 34, bottom: 10, left: 34 }
                 : { top: 0, right: 0, bottom: 0, left: 0 }
             }
           >
@@ -60,34 +60,28 @@ export default function RadarLove({ score }: Props) {
                 const label = String(payload.value);
 
                 if (!isMobile) {
-                  if (label === "Communication") {
-                    return (
-                      <text x={x} y={y} textAnchor="middle" fill="#ddd" fontSize={10}>
-                        <tspan x={x} dy="0">Communi-</tspan>
-                        <tspan x={x} dy="11">cation</tspan>
-                      </text>
-                    );
-                  }
-
-                  if (label === "Attachement") {
-                    return (
-                      <text x={x} y={y} textAnchor="middle" fill="#ddd" fontSize={10}>
-                        <tspan x={x} dy="0">Attache-</tspan>
-                        <tspan x={x} dy="11">ment</tspan>
-                      </text>
-                    );
-                  }
-
                   return (
                     <text x={x} y={y} textAnchor="middle" fill="#ddd" fontSize={10}>
-                      {label}
+                      {label === "Communication" ? (
+                        <>
+                          <tspan x={x} dy="0">Communi-</tspan>
+                          <tspan x={x} dy="11">cation</tspan>
+                        </>
+                      ) : label === "Attachement" ? (
+                        <>
+                          <tspan x={x} dy="0">Attache-</tspan>
+                          <tspan x={x} dy="11">ment</tspan>
+                        </>
+                      ) : (
+                        label
+                      )}
                     </text>
                   );
                 }
 
                 if (label === "Communication") {
                   return (
-                    <text x={x} y={y - 2} textAnchor="middle" fill="#ddd" fontSize={10}>
+                    <text x={x} y={y - 4} textAnchor="middle" fill="#ddd" fontSize={10}>
                       <tspan x={x} dy="0">Communi-</tspan>
                       <tspan x={x} dy="11">cation</tspan>
                     </text>
@@ -95,36 +89,33 @@ export default function RadarLove({ score }: Props) {
                 }
 
                 if (label === "Attachement") {
+                  const tx = x - 20;
                   return (
-                    <text
-                      x={x - 8}
-                      y={y}
-                      textAnchor="start"
-                      fill="#ddd"
-                      fontSize={10}
-                    >
-                      <tspan x={x - 8} dy="0">Attache-</tspan>
-                      <tspan x={x - 8} dy="11">ment</tspan>
+                    <text x={tx} y={y} textAnchor="start" fill="#ddd" fontSize={10}>
+                      <tspan x={tx} dy="0">Attache-</tspan>
+                      <tspan x={tx} dy="11">ment</tspan>
                     </text>
                   );
                 }
 
                 if (label === "Vision") {
                   return (
-                    <text
-                      x={x + 8}
-                      y={y}
-                      textAnchor="end"
-                      fill="#ddd"
-                      fontSize={10}
-                    >
+                    <text x={x + 20} y={y} textAnchor="end" fill="#ddd" fontSize={10}>
+                      {label}
+                    </text>
+                  );
+                }
+
+                if (label === "Stabilité") {
+                  return (
+                    <text x={x} y={y + 4} textAnchor="middle" fill="#ddd" fontSize={10}>
                       {label}
                     </text>
                   );
                 }
 
                 return (
-                  <text x={x} y={y + 2} textAnchor="middle" fill="#ddd" fontSize={10}>
+                  <text x={x} y={y} textAnchor="middle" fill="#ddd" fontSize={10}>
                     {label}
                   </text>
                 );
