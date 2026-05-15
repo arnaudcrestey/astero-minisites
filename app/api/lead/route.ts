@@ -66,8 +66,7 @@ export async function POST(req: Request) {
       },
     });
 
-    await transporter.verify();
-
+  
     await transporter.sendMail({
       from: `"LOVE SCAN - Cabinet Astrae" <${process.env.SMTP_USER}>`,
       to: process.env.LEAD_EMAIL,
